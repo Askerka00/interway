@@ -24,7 +24,7 @@ const services = [
         
         <div class="flex flex-col space-y-6">
           <NuxtLink to="/" class="flex items-center gap-3">
-            <img src="/logo-interway.png" alt="Inter Way" class="h-12 w-auto" />
+            <img src="/logo.png" alt="Inter Way" class="h-12 w-auto" />
           </NuxtLink>
           <p class="max-w-xs text-sm leading-relaxed text-gray-400">
             ТОО "INTER WAY" — современная логистическая компания. Комплексные решения по доставке, таможенному оформлению и экспедированию грузов в Казахстане и за его пределами.

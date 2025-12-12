@@ -19,7 +19,7 @@ const toggleMobileMenu = () => {
   <header class="absolute top-0 z-50 w-full border-b border-white/10">
     <div class="container mx-auto flex items-center justify-between px-6 py-3 md:px-12">
       <NuxtLink to="/" class="flex items-center gap-3 text-2xl font-bold text-white">
-        <img src="/logo-interway.png" alt="Inter Way" class="h-16 w-auto" />
+        <img src="/logo.png" alt="Inter Way" class="h-16 w-auto" />
       </NuxtLink>
 
       <nav class="hidden items-center gap-8 lg:flex">
