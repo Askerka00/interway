@@ -47,7 +47,8 @@ const submitForm = () => {
                 </div>
                 <div>
                   <span class="font-semibold text-gray-900">Офис</span><br>
-                  Алматы, пр. Аль-Фараби 77/7,<br>БЦ "Есентай Тауэрс"
+                  ТОО "INTER WAY"<br>
+                  г. Алматы, Медеуский район,<br>ул. Кунаева, дом 32
                 </div>
               </div>
 
@@ -57,8 +58,8 @@ const submitForm = () => {
                 </div>
                 <div>
                   <span class="font-semibold text-gray-900">Телефон</span><br>
-                  <a href="tel:+77771234567" class="hover:text-blue-500 transition-colors">
-                    +7 (777) 123-45-67
+                  <a href="tel:+77003003390" class="hover:text-blue-500 transition-colors">
+                    +7 700 300 3390
                   </a>
                 </div>
               </div>
@@ -69,8 +70,8 @@ const submitForm = () => {
                 </div>
                 <div>
                   <span class="font-semibold text-gray-900">Электронная почта</span><br>
-                  <a href="mailto:hello@company.com" class="hover:text-blue-500 transition-colors">
-                    hello@company.com
+                  <a href="mailto:Inter_way@mail.ru" class="hover:text-blue-500 transition-colors">
+                    Inter_way@mail.ru
                   </a>
                 </div>
               </div>
@@ -107,7 +108,7 @@ const submitForm = () => {
                   id="from" 
                   v-model="form.from"
                   class="block w-full rounded-md border-0 py-2 pl-10 pr-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow"
-                  placeholder="Алматы, Казахстан"
+                  placeholder="г. Алматы, Казахстан"
                 >
               </div>
             </div>
