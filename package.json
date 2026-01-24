@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@heroicons/vue": "^2.2.0",
     "@tailwindcss/vite": "^4.1.17",
     "nuxt": "^3.20.1",

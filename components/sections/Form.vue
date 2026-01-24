@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import emailjs from '@emailjs/browser'
 // Импортируем иконки для контактов (outline) и для формы (solid - для акцента)
 import { MapPinIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/vue/24/outline'
 import { UserIcon as UserIconSolid, EnvelopeIcon as EnvelopeIconSolid, PhoneIcon as PhoneIconSolid, ChatBubbleBottomCenterTextIcon as ChatIconSolid } from '@heroicons/vue/20/solid'
+
+// EmailJS Configuration
+const EMAILJS_SERVICE_ID = 'service_x3f1azl'
+const EMAILJS_TEMPLATE_ID = 'template_iy6x1vg'
+const EMAILJS_PUBLIC_KEY = 'hEtoyndiolNG1XBU3'
 
 const form = reactive({
   from: '',
@@ -12,16 +18,59 @@ const form = reactive({
   phone: ''
 })
 
-const submitForm = () => {
-  // Логика отправки формы
-  console.log('Форма отправлена:', form)
-  alert('Спасибо! Форма отправлена (в консоль).')
-  // Сброс формы (опционально)
-  form.from = ''
-  form.to = ''
-  form.cargo = ''
-  form.name = ''
-  form.phone = ''
+const isLoading = ref(false)
+const submitStatus = ref<'idle' | 'success' | 'error'>('idle')
+const errorMessage = ref('')
+
+const submitForm = async () => {
+  // Валидация полей
+  if (!form.from || !form.to || !form.name || !form.phone) {
+    errorMessage.value = 'Пожалуйста, заполните все обязательные поля'
+    submitStatus.value = 'error'
+    return
+  }
+
+  isLoading.value = true
+  submitStatus.value = 'idle'
+  errorMessage.value = ''
+
+  try {
+    // Отправка через EmailJS
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      {
+        from_location: form.from,
+        to_location: form.to,
+        cargo: form.cargo || 'Не указано',
+        name: form.name,
+        phone: form.phone,
+        to_email: 'Inter_way@mail.ru'
+      },
+      EMAILJS_PUBLIC_KEY
+    )
+
+    submitStatus.value = 'success'
+    
+    // Сброс формы
+    form.from = ''
+    form.to = ''
+    form.cargo = ''
+    form.name = ''
+    form.phone = ''
+
+    // Сбросить статус через 5 секунд
+    setTimeout(() => {
+      submitStatus.value = 'idle'
+    }, 5000)
+
+  } catch (error) {
+    console.error('Ошибка отправки:', error)
+    submitStatus.value = 'error'
+    errorMessage.value = 'Произошла ошибка при отправке. Попробуйте позже или свяжитесь с нами по телефону.'
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
@@ -181,12 +230,43 @@ const submitForm = () => {
               </div>
             </div>
             
+            <!-- Сообщение об успехе -->
+            <div v-if="submitStatus === 'success'" class="rounded-lg bg-green-50 p-4 ring-1 ring-green-200">
+              <div class="flex items-center gap-3">
+                <svg class="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                <p class="text-sm font-medium text-green-800">Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.</p>
+              </div>
+            </div>
+
+            <!-- Сообщение об ошибке -->
+            <div v-if="submitStatus === 'error'" class="rounded-lg bg-red-50 p-4 ring-1 ring-red-200">
+              <div class="flex items-center gap-3">
+                <svg class="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                </svg>
+                <p class="text-sm font-medium text-red-800">{{ errorMessage }}</p>
+              </div>
+            </div>
+
             <div class="mt-2">
               <button 
                 type="submit" 
-                class="block w-full rounded-md bg-blue-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                :disabled="isLoading"
+                :class="[
+                  'block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600',
+                  isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500'
+                ]"
               >
-                Отправить заявку
+                <span v-if="isLoading" class="flex items-center justify-center gap-2">
+                  <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Отправка...
+                </span>
+                <span v-else>Отправить заявку</span>
               </button>
               <p class="mt-4 text-xs text-gray-500 text-center">
                 Нажимая кнопку, вы соглашаетесь с нашей <a href="#" class="text-blue-600 hover:underline">политикой конфиденциальности</a>.
