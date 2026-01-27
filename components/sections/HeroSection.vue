@@ -1,12 +1,13 @@
 <script setup lang="ts">
 // Логика не требуется для чистого отображения
+import heroCargoShip from '~/assets/images/hero-cargo-ship.png'
 </script>
 
 <template>
   <section class="relative h-screen min-h-[600px] w-full overflow-hidden bg-slate-900">
     
     <img 
-      src="~/assets/images/hero-cargo-ship.png" 
+      :src="heroCargoShip" 
       alt="Грузовое судно" 
       class="absolute inset-0 h-full w-full object-cover"
     />
