@@ -38,15 +38,15 @@
             {{ item.description }}
           </p>
 
-          <a 
-            href="#" 
+          <NuxtLink 
+            to="/services" 
             class="mt-auto inline-flex items-center text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-500"
           >
-            Подробнее
+            Подробнее об услугах
             <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
-          </a>
+          </NuxtLink>
         </div>
 
       </div>
@@ -64,9 +64,9 @@
           </div>
 
           <div class="mt-8 sm:mt-0 sm:ml-8">
-            <button class="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 text-base font-semibold text-blue-600 shadow-sm transition-colors duration-200 hover:bg-blue-50">
-              Скачать пример SLA
-            </button>
+            <NuxtLink to="/#contacts" class="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 text-base font-semibold text-blue-600 shadow-sm transition-colors duration-200 hover:bg-blue-50">
+              Запросить договор с SLA
+            </NuxtLink>
           </div>
 
         </div>

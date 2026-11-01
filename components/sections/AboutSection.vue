@@ -10,9 +10,10 @@
         
         <div class="relative order-2 h-full min-h-[400px] w-full overflow-hidden rounded-3xl lg:order-1 lg:min-h-[600px]">
           <img 
-            src="~/assets/images/cargo-ship-sea.png" 
-            alt="Грузовое судно в море" 
-            class ="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+            src="~/assets/images/cargo-ship-sea.jpg" 
+            alt="Контейнеровоз — международные морские и мультимодальные перевозки INTER WAY" 
+            loading="lazy"
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
           />
         </div>
 
