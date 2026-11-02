@@ -45,6 +45,7 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#0B1120' },
         { name: 'author', content: 'ТОО INTER WAY' },
         { name: 'google-site-verification', content: '3byhcG1ZgK6-SyhekfG5pQjwBmn-j0fKvAeCUUIVcfA' },
+        { name: 'yandex-verification', content: '99d9610f4a1f0592' },
         { name: 'geo.region', content: 'KZ-ALA' },
         { name: 'geo.placename', content: 'Алматы' },
         { name: 'geo.position', content: '43.2614;76.9458' },
