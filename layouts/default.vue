@@ -8,6 +8,7 @@
 
     <ContactForm />
     <Footer />
+    <WhatsAppWidget />
   </div>
 </template>
 
@@ -15,4 +16,5 @@
 import Navbar from '~/components/layout/Navbar.vue'
 import ContactForm from '~/components/sections/Form.vue'
 import Footer from '~/components/layout/Footer.vue'
+import WhatsAppWidget from '~/components/ui/WhatsAppWidget.vue'
 </script>
