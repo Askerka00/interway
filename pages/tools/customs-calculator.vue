@@ -170,8 +170,8 @@ usePageSeo({
                 <input
                   v-model.number="invoiceAmount"
                   type="number"
-                  min="100"
-                  step="500"
+                  min="0"
+                  step="100"
                   class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
                 />
               </div>

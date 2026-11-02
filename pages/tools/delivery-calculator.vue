@@ -197,9 +197,9 @@ usePageSeo({
                 <input
                   v-model.number="weightKg"
                   type="number"
-                  min="10"
+                  min="0"
                   max="100000"
-                  step="50"
+                  step="10"
                   class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
                 />
               </div>
@@ -210,9 +210,9 @@ usePageSeo({
                 <input
                   v-model.number="volumeCbm"
                   type="number"
-                  min="0.1"
+                  min="0"
                   max="500"
-                  step="0.5"
+                  step="0.1"
                   class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
                 />
               </div>
@@ -258,8 +258,8 @@ usePageSeo({
                 <input
                   v-model.number="invoiceUsd"
                   type="number"
-                  min="100"
-                  step="500"
+                  min="0"
+                  step="100"
                   class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
                 />
               </div>
@@ -400,16 +400,16 @@ usePageSeo({
             </div>
 
             <!-- Блок фиксации расчета -->
-            <div class="rounded-3xl bg-blue-600 p-6 md:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="rounded-3xl bg-blue-600 p-8 text-white flex flex-col gap-6">
               <div>
-                <h4 class="text-lg font-bold">
-                  Нужна точная ставка до доллара под ваш упаковочный лист?
+                <h4 class="text-xl font-bold">
+                  Нужна точная ставка под ваш упаковочный лист?
                 </h4>
-                <p class="mt-1 text-sm text-blue-100">
+                <p class="mt-2 text-sm text-blue-100 leading-relaxed">
                   Отправьте параметры этого расчета логисту INTER WAY в один клик — проверим габариты и пришлем КП за 15 минут.
                 </p>
               </div>
-              <div class="flex flex-wrap gap-3 shrink-0">
+              <div class="flex flex-wrap gap-3">
                 <a
                   :href="whatsappShareUrl"
                   target="_blank"
