@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import logo from '~/assets/images/logo.png'
-import { COMPANY_INFO, SERVICES_DATA, ROUTES_DATA } from '~/data/seoData'
+import { COMPANY_INFO, SERVICES_DATA, ROUTES_DATA, TOOLS_DATA } from '~/data/seoData'
 
 const navigation = [
   { name: 'Главная', to: '/' },
   { name: 'Все услуги', to: '/services' },
   { name: 'Направления перевозок', to: '/routes' },
+  { name: 'Калькуляторы ВЭД', to: '/tools' },
   { name: 'О компании', to: '/#about' },
   { name: 'Контакты и реквизиты', to: '/contacts' },
   { name: 'Политика конфиденциальности', to: '/privacy' },
@@ -54,6 +55,17 @@ const topRoutes = ROUTES_DATA.slice(0, 6)
                 class="text-sm text-gray-400 transition-colors hover:text-blue-400"
               >
                 {{ service.shortTitle }}
+              </NuxtLink>
+            </li>
+          </ul>
+          <h3 class="mt-8 mb-4 text-sm font-bold uppercase tracking-wider text-white">Онлайн-калькуляторы</h3>
+          <ul class="space-y-3">
+            <li v-for="tool in TOOLS_DATA" :key="tool.slug">
+              <NuxtLink
+                :to="`/tools/${tool.slug}`"
+                class="text-sm text-gray-400 transition-colors hover:text-blue-400"
+              >
+                {{ tool.shortTitle }}
               </NuxtLink>
             </li>
           </ul>

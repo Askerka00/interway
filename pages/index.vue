@@ -5,7 +5,7 @@ import ServicesSection from '~/components/sections/ServicesSection.vue'
 import AboutSection from '~/components/sections/AboutSection.vue'
 import GeographySection from '~/components/sections/GeographySection.vue'
 import KPI from '~/components/sections/KPI.vue'
-import { SERVICES_DATA, ROUTES_DATA } from '~/data/seoData'
+import { SERVICES_DATA, ROUTES_DATA, TOOLS_DATA } from '~/data/seoData'
 import { usePageSeo } from '~/composables/usePageSeo'
 
 const homeFaqs = [
@@ -100,6 +100,59 @@ usePageSeo({
     </section>
 
     <AboutSection />
+
+    <!-- Блок бесплатных ВЭД-калькуляторов на главной -->
+    <section class="bg-[#0B1120] py-16 md:py-24 text-white border-b border-white/5">
+      <div class="container mx-auto px-6 md:px-12">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <span class="mb-3 block text-xs font-bold uppercase tracking-widest text-blue-400">
+              Онлайн-расчет без ожидания и ввода телефона
+            </span>
+            <h2 class="text-3xl font-bold text-white md:text-4xl">
+              Бесплатные калькуляторы логистики и таможни РК
+            </h2>
+            <p class="mt-3 text-base text-gray-400 max-w-2xl">
+              Считайте стоимость доставки из Китая, Турции и РФ, проверяйте пошлины и Перечень изъятий ВТО РК, рассчитывайте кубатуру (м³) и вместимость паллет прямо на сайте.
+            </p>
+          </div>
+          <NuxtLink
+            to="/tools"
+            class="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300"
+          >
+            Все калькуляторы
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </NuxtLink>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <NuxtLink
+            v-for="tool in TOOLS_DATA"
+            :key="tool.slug"
+            :to="`/tools/${tool.slug}`"
+            class="group flex flex-col justify-between rounded-3xl bg-[#131B2D] border border-white/10 p-6 transition-all duration-300 hover:border-blue-500 hover:-translate-y-1"
+          >
+            <div>
+              <span class="inline-block rounded-full bg-blue-600/20 px-3 py-1 text-[11px] font-bold text-blue-300 mb-4">
+                {{ tool.badge }}
+              </span>
+              <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                {{ tool.shortTitle }}
+              </h3>
+              <p class="mt-2.5 text-xs leading-relaxed text-gray-400">
+                {{ tool.subtitle }}
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-blue-400">
+              <span>Открыть расчет</span>
+              <span class="transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
 
     <ServicesSection />
 

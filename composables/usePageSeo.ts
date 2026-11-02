@@ -9,6 +9,10 @@ export function usePageSeo(options: {
   faqs?: { q: string; a: string }[]
   service?: ServiceItem
   routeItem?: RouteItem
+  webApp?: {
+    name: string
+    category: string
+  }
 }) {
   const canonicalUrl = `${COMPANY_INFO.url}${options.path === '/' ? '' : options.path}`
 
@@ -100,6 +104,26 @@ export function usePageSeo(options: {
         { '@type': 'Country', name: options.routeItem.fromCountry },
         { '@type': 'Country', name: options.routeItem.toCountry }
       ]
+    })
+  }
+
+  if (options.webApp) {
+    schemaGraph.push({
+      '@type': 'WebApplication',
+      name: options.webApp.name,
+      url: canonicalUrl,
+      description: options.description,
+      applicationCategory: options.webApp.category,
+      operatingSystem: 'All',
+      inLanguage: 'ru-KZ',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'KZT'
+      },
+      provider: {
+        '@id': `${COMPANY_INFO.url}/#organization`
+      }
     })
   }
 

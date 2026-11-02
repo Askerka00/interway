@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import logo from '~/assets/images/logo.png'
-import { COMPANY_INFO, SERVICES_DATA } from '~/data/seoData'
+import { COMPANY_INFO, SERVICES_DATA, TOOLS_DATA } from '~/data/seoData'
 
 const isMobileMenuOpen = ref(false)
 const isServicesOpen = ref(false)
 
 const navLinks = [
   { label: 'Главная', to: '/' },
-  { label: 'Услуги', to: '/services', hasDropdown: true },
+  { label: 'Услуги', to: '/services', dropdownType: 'services' },
   { label: 'Направления', to: '/routes' },
+  { label: 'Калькуляторы', to: '/tools', dropdownType: 'tools' },
   { label: 'О компании', to: '/#about' },
   { label: 'Контакты', to: '/contacts' },
 ]
@@ -29,10 +30,8 @@ const toggleMobileMenu = () => {
       <nav class="hidden items-center gap-8 lg:flex" aria-label="Основная навигация">
         <template v-for="link in navLinks" :key="link.to">
           <div
-            v-if="link.hasDropdown"
+            v-if="link.dropdownType"
             class="relative group"
-            @mouseenter="isServicesOpen = true"
-            @mouseleave="isServicesOpen = false"
           >
             <NuxtLink
               :to="link.to"
@@ -45,7 +44,7 @@ const toggleMobileMenu = () => {
             </NuxtLink>
 
             <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 absolute left-0 top-full pt-2 w-72">
-              <div class="rounded-2xl border border-white/10 bg-[#0F172A] p-3 shadow-2xl">
+              <div v-if="link.dropdownType === 'services'" class="rounded-2xl border border-white/10 bg-[#0F172A] p-3 shadow-2xl">
                 <NuxtLink
                   v-for="service in SERVICES_DATA"
                   :key="service.slug"
@@ -60,6 +59,25 @@ const toggleMobileMenu = () => {
                   class="block rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300"
                 >
                   Все услуги →
+                </NuxtLink>
+              </div>
+
+              <div v-else-if="link.dropdownType === 'tools'" class="rounded-2xl border border-white/10 bg-[#0F172A] p-3 shadow-2xl">
+                <NuxtLink
+                  v-for="tool in TOOLS_DATA"
+                  :key="tool.slug"
+                  :to="`/tools/${tool.slug}`"
+                  class="block rounded-xl px-4 py-2.5 text-sm font-medium text-gray-200 transition hover:bg-blue-600/20 hover:text-white"
+                >
+                  <div>{{ tool.shortTitle }}</div>
+                  <div class="text-[11px] text-gray-400">{{ tool.badge }}</div>
+                </NuxtLink>
+                <div class="my-2 border-t border-white/10"></div>
+                <NuxtLink
+                  to="/tools"
+                  class="block rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300"
+                >
+                  Все ВЭД-калькуляторы →
                 </NuxtLink>
               </div>
             </div>

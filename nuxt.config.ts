@@ -17,6 +17,11 @@ const prerenderRoutes = [
   '/routes/uae-almaty',
   '/routes/uzbekistan-kazakhstan',
   '/routes/almaty-astana',
+  '/tools',
+  '/tools/delivery-calculator',
+  '/tools/customs-calculator',
+  '/tools/cbm-pallet-calculator',
+  '/tools/rail-distance-calculator',
   '/contacts',
   '/privacy',
   '/sitemap.xml'
