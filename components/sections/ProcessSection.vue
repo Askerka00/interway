@@ -89,7 +89,7 @@ const steps = [
       </div>
 
       <div class="mt-16 text-center">
-        <NuxtLink to="/#contacts" class="rounded-full bg-slate-900 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-blue-600 hover:shadow-lg">
+        <NuxtLink to="/#contacts" class="rounded-full bg-slate-900 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-blue-600">
           Рассчитать стоимость
         </NuxtLink>
       </div>

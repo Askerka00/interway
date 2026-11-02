@@ -32,7 +32,7 @@
           <div class="mt-12 flex flex-wrap gap-4">
             <NuxtLink 
               to="/#contacts"
-              class="group flex items-center gap-2 rounded-full bg-blue-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20"
+              class="group flex items-center gap-2 rounded-full bg-blue-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-blue-700"
             >
               Рассчитать стоимость
               <svg 

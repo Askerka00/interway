@@ -21,9 +21,9 @@ const services = [
       'Краткосрочное хранение',
       'Температурные режимы',
       'Погрузочно-разгрузочные работы',
-      'Комплектация и стикеровка',
-      'Система учета WMS',
-      'Кросс-докинг операций'
+      'Комплектация и маркировка',
+      'Учет и контроль остатков',
+      'Перегрузка на доставку'
     ]
   },
   {
@@ -51,7 +51,7 @@ const services = [
         <div 
           v-for="(service, idx) in services" 
           :key="idx"
-          class="group relative overflow-hidden rounded-3xl bg-[#131B2D] border border-white/5 p-8 transition-all duration-300 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-900/10 md:p-10 lg:flex lg:gap-12"
+          class="group relative overflow-hidden rounded-3xl bg-[#131B2D] border border-white/10 p-8 transition-colors duration-200 hover:border-white/25 md:p-10 lg:flex lg:gap-12"
         >
           
           <div class="relative z-10 flex flex-col items-start lg:w-[40%] lg:shrink-0">
