@@ -1,0 +1,1 @@
+import{_ as o}from"./BgzMlb14.js";import{e,j as r,o as t}from"./D2NvzMLU.js";import"./CPWFIl6_.js";import"./VUqHLVcV.js";import"./DnmpIfxp.js";import"./TKusbMXu.js";const u=e({__name:"sea",setup(a){return(s,m)=>(t(),r(o,{slug:"sea"}))}});export{u as default};
