@@ -52,6 +52,15 @@ const submitForm = async () => {
 
     submitStatus.value = 'success'
     
+    // Google Analytics 4 (GA4) Конверсия - generate_lead
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      ;(window as any).gtag('event', 'generate_lead', {
+        event_category: 'form',
+        event_label: 'contact_form_submission',
+        value: 1
+      })
+    }
+
     // Сброс формы
     form.from = ''
     form.to = ''
