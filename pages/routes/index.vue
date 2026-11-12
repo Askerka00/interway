@@ -77,7 +77,7 @@ usePageSeo({
                 Подробнее о маршруте →
               </NuxtLink>
               <NuxtLink
-                to="#contacts"
+                to="/#contacts"
                 class="rounded-full bg-slate-900 px-5 py-2.5 text-xs font-bold text-white transition-colors hover:bg-blue-600"
               >
                 Оставить заявку

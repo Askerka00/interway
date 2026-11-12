@@ -168,7 +168,7 @@ usePageSeo({
                   Узнать точный расчет в WhatsApp
                 </a>
                 <NuxtLink
-                  to="#contacts"
+                  to="/#contacts"
                   class="rounded-full border border-white/25 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-slate-900"
                 >
                   Оставить заявку
