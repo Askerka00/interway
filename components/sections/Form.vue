@@ -22,6 +22,22 @@ const isLoading = ref(false)
 const submitStatus = ref<'idle' | 'success' | 'error'>('idle')
 const errorMessage = ref('')
 
+const trackFieldInteraction = (fieldName: string, action: 'focus' | 'blur') => {
+  const value = (form as Record<string, string>)[fieldName]
+  if (typeof window !== 'undefined') {
+    if ((window as any).clarity) {
+      (window as any).clarity('event', `form_${fieldName}_${action}`)
+    }
+    if ((window as any).gtag) {
+      (window as any).gtag('event', action === 'focus' ? 'form_start' : 'form_field_interaction', {
+        event_category: 'contact_form',
+        field_name: fieldName,
+        has_value: Boolean(value && value.trim().length > 0)
+      })
+    }
+  }
+}
+
 const whatsappQuickUrl = computed(() => {
   const details: string[] = []
   if (form.from) details.push(`• Откуда: ${form.from}`)
@@ -171,7 +187,7 @@ const submitForm = async () => {
           </div>
         </div>
 
-        <form @submit.prevent="submitForm" class="rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-200">
+        <form @submit.prevent="submitForm" data-clarity-unmask="true" class="rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-200">
           <div class="grid grid-cols-1 gap-y-6">
             
             <div>
@@ -184,7 +200,10 @@ const submitForm = async () => {
                   type="text" 
                   name="from" 
                   id="from" 
+                  data-clarity-unmask="true"
                   v-model="form.from"
+                  @focus="trackFieldInteraction('from', 'focus')"
+                  @blur="trackFieldInteraction('from', 'blur')"
                   class="block w-full rounded-md border-0 py-2 pl-10 pr-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow"
                   placeholder="г. Алматы, Казахстан"
                 >
@@ -201,7 +220,10 @@ const submitForm = async () => {
                   type="text" 
                   name="to" 
                   id="to" 
+                  data-clarity-unmask="true"
                   v-model="form.to"
+                  @focus="trackFieldInteraction('to', 'focus')"
+                  @blur="trackFieldInteraction('to', 'blur')"
                   class="block w-full rounded-md border-0 py-2 pl-10 pr-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow"
                   placeholder="Москва, Россия"
                 >
@@ -218,7 +240,10 @@ const submitForm = async () => {
                   name="cargo" 
                   id="cargo" 
                   rows="4" 
+                  data-clarity-unmask="true"
                   v-model="form.cargo"
+                  @focus="trackFieldInteraction('cargo', 'focus')"
+                  @blur="trackFieldInteraction('cargo', 'blur')"
                   class="block w-full rounded-md border-0 py-2 pl-10 pr-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow"
                   placeholder="Вес, габариты, тип груза, особые требования"
                 ></textarea>
@@ -235,7 +260,10 @@ const submitForm = async () => {
                   type="text" 
                   name="name" 
                   id="name" 
+                  data-clarity-unmask="true"
                   v-model="form.name"
+                  @focus="trackFieldInteraction('name', 'focus')"
+                  @blur="trackFieldInteraction('name', 'blur')"
                   class="block w-full rounded-md border-0 py-2 pl-10 pr-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow"
                   placeholder="Иван Иванов"
                 >
@@ -252,7 +280,10 @@ const submitForm = async () => {
                   type="tel" 
                   name="phone" 
                   id="phone" 
+                  data-clarity-unmask="true"
                   v-model="form.phone"
+                  @focus="trackFieldInteraction('phone', 'focus')"
+                  @blur="trackFieldInteraction('phone', 'blur')"
                   class="block w-full rounded-md border-0 py-2 pl-10 pr-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 transition-shadow" 
                   placeholder="+7 (___) ___-__-__"
                 >

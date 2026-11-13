@@ -160,6 +160,7 @@ usePageSeo({
                   type="number"
                   min="1"
                   step="10"
+                  data-clarity-unmask="true"
                   class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
                 />
               </div>
@@ -172,6 +173,7 @@ usePageSeo({
                   type="number"
                   min="0.1"
                   step="0.5"
+                  data-clarity-unmask="true"
                   class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
                 />
               </div>

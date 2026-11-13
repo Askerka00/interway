@@ -107,26 +107,26 @@ usePageSeo({
             <div class="grid grid-cols-3 gap-4">
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Длина (см)</label>
-                <input v-model.number="lengthCm" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
+                <input v-model.number="lengthCm" data-clarity-unmask="true" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Ширина (см)</label>
-                <input v-model.number="widthCm" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
+                <input v-model.number="widthCm" data-clarity-unmask="true" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Высота (см)</label>
-                <input v-model.number="heightCm" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
+                <input v-model.number="heightCm" data-clarity-unmask="true" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
               </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Вес 1 места (кг)</label>
-                <input v-model.number="weightOneKg" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
+                <input v-model.number="weightOneKg" data-clarity-unmask="true" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Количество мест (шт)</label>
-                <input v-model.number="quantity" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
+                <input v-model.number="quantity" data-clarity-unmask="true" type="number" min="1" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none" />
               </div>
             </div>
           </div>
