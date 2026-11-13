@@ -1,0 +1,1 @@
+import{_ as r}from"./B_qlutnv.js";import{e as o,j as a,o as t}from"./Dx4n7ne0.js";import"./BkxxDp9m.js";import"./VUqHLVcV.js";import"./CfE8HjhH.js";import"./BaJ9fYFP.js";const l=o({__name:"air-rail",setup(e){return(i,m)=>(t(),a(r,{slug:"air-rail"}))}});export{l as default};
