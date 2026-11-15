@@ -21,8 +21,7 @@
           </span>
 
           <h1 class="font-sans text-4xl font-bold leading-tight text-white md:text-5xl lg:text-[4rem]">
-            Комплексные <br />
-            решения для бизнеса<span class="text-blue-600">.</span>
+            Логистические услуги и международные грузоперевозки<span class="text-blue-600">.</span>
           </h1>
 
           <p class="mt-8 text-lg leading-relaxed text-gray-300 md:text-xl max-w-2xl">

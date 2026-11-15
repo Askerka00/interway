@@ -38,8 +38,33 @@ const whatsappCbmUrl = computed(() => {
   return `https://wa.me/77003003390?text=${encodeURIComponent(text)}`
 })
 
+const faqs = [
+  {
+    q: 'Как рассчитать объём груза в кубометрах (м³) по размерам коробки?',
+    a: 'Переведите длину, ширину и высоту одной коробки в метры (разделите сантиметры на 100) и перемножьте их, затем умножьте на количество коробок: V = (Д × Ш × В / 1 000 000) × Кол-во.'
+  },
+  {
+    q: 'Сколько европаллет (120×80 см) помещается в стандартную еврофуру и контейнер?',
+    a: 'В стандартную еврофуру (13.6 м, 86–90 м³) помещается до 33 европаллет (120×80 см) в один ярус. В 20-футовый контейнер (20’GP) — до 11 европаллет, в 40-футовый контейнер (40’DV/HC) — до 25 европаллет (в один ярус).'
+  },
+  {
+    q: 'Почему логисты считают объёмный вес, если мой груз лёгкий?',
+    a: 'Лёгкий, но габаритный товар занимает много места в фуре или самолёте. Чтобы компенсировать объём, применяется коэффициент плотности: для автоперевозок 1 м³ = 250–333 кг, для авиа 1 м³ = 167 кг. Оплата идёт по большему весу.'
+  },
+  {
+    q: 'Влияет ли объём груза на стоимость растаможки и НДС 12% в Казахстане?',
+    a: 'Косвенно да: в таможенную стоимость товара включается стоимость его доставки до границы ЕАЭС, которая напрямую зависит от объёма и веса груза. На эту общую сумму начисляются пошлина и НДС 12%.'
+  }
+]
+
+const relatedTools = [
+  ...TOOLS_DATA.filter(x => x.slug !== 'cbm-pallet-calculator'),
+  { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+]
+
 usePageSeo({
-  title: 'Калькулятор объема груза в м3 и расчет паллет в фуру и контейнер | INTER WAY',
+  title: 'Калькулятор объёма груза м³ и паллет в фуру и контейнер | INTER WAY',
   description: 'Простой онлайн-калькулятор объема груза в кубометрах (м3) по размерам коробок или паллет. Узнайте, какой транспорт подойдет под ваш груз.',
   path: '/tools/cbm-pallet-calculator',
   keywords: 'расчет объема груза м3 калькулятор, калькулятор объема и веса груза, расчет паллет в фуре, сколько паллет входит в фуру',
@@ -48,6 +73,7 @@ usePageSeo({
     { name: 'Калькуляторы', path: '/tools' },
     { name: 'Расчет объема (м³) и паллет', path: '/tools/cbm-pallet-calculator' }
   ],
+  faqs,
   webApp: {
     name: 'Калькулятор объема груза (м³) и паллет INTER WAY',
     category: 'UtilitiesApplication'
@@ -175,9 +201,69 @@ usePageSeo({
           </div>
         </div>
 
-        <div class="mt-14 pt-10 border-t border-slate-200 flex flex-wrap gap-3">
+        <!-- SEO-блок: формулы и справочник паллет -->
+        <div class="mt-14 grid gap-6 lg:grid-cols-2">
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Формула расчёта кубатуры (CBM) и стандарты паллет
+            </h2>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Точный расчёт объёма груза в кубометрах (м³ / CBM) позволяет избежать переплат за воздух и правильно выбрать формат перевозки — сборный груз (LCL) или целый транспорт (FTL/FCL).
+            </p>
+            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
+              <div><strong>Формула объёма:</strong> V (м³) = (Длина_см × Ширина_см × Высота_см) / 1 000 000 × Кол-во мест.</div>
+              <div><strong>Европаллета (EUR):</strong> 120 × 80 см — до 33 шт. в еврофуру (86–90 м³), 11 шт. в 20’GP, 25 шт. в 40’HC.</div>
+              <div><strong>Финская паллета (FIN):</strong> 120 × 100 см — до 26 шт. в еврофуру, 10 шт. в 20’GP, 21 шт. в 40’HC.</div>
+              <div><strong>Пример:</strong> 20 коробок 60×40×40 см = 20 × 0.096 м³ = 1.92 м³. При весе 300 кг это компактный сборный груз из Китая или Турции.</div>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Нужно уложить коробки в конкретный контейнер и сравнить LCL и FCL? Используйте наш <NuxtLink to="/tools/container-load-calculator" class="text-blue-600 font-semibold hover:underline">Калькулятор загрузки контейнера</NuxtLink>.
+            </p>
+          </div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Частые вопросы по объёму и паллетированию
+            </h2>
+            <div class="space-y-4">
+              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
+                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Перелинковка на маршруты и услуги -->
+        <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-4">
+            Популярные маршруты и услуги доставки
+          </h2>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <NuxtLink to="/services/consolidated-cargo" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Сборные грузы от 1 паллеты →
+            </NuxtLink>
+            <NuxtLink to="/services/white-delivery-china" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Белая доставка из Китая →
+            </NuxtLink>
+            <NuxtLink to="/services/customs" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Таможенное оформление и НДС 12% →
+            </NuxtLink>
+            <NuxtLink to="/routes/china-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Китай → Алматы →
+            </NuxtLink>
+            <NuxtLink to="/routes/china-astana" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Китай → Астана →
+            </NuxtLink>
+            <NuxtLink to="/routes/turkey-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Турция → Алматы →
+            </NuxtLink>
+          </div>
+        </div>
+
+        <div class="mt-10 pt-8 border-t border-slate-200 flex flex-wrap gap-3">
           <NuxtLink
-            v-for="t in TOOLS_DATA.filter(x => x.slug !== 'cbm-pallet-calculator')"
+            v-for="t in relatedTools"
             :key="t.slug"
             :to="`/tools/${t.slug}`"
             class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-700 transition-colors hover:border-slate-400"

@@ -69,8 +69,33 @@ const whatsappShareUrl = computed(() => {
   return `https://wa.me/77003003390?text=${encodeURIComponent(text)}`
 })
 
+const faqs = [
+  {
+    q: 'Как рассчитывается оплачиваемый вес груза при доставке из Китая в Казахстан?',
+    a: 'В логистике сравнивают фактический вес (брутто) и объёмный вес. Для автодоставки и сборных грузов стандартная плотность составляет 250–333 кг в 1 м³, для авиаперевозок — 167 кг в 1 м³ (формула Д×Ш×В / 6000). К оплате принимается большее из двух значений.'
+  },
+  {
+    q: 'Что выгоднее для партии до 10 м³: сборный груз (LCL) или отдельный контейнер?',
+    a: 'Для партий объёмом до 10–15 м³ и весом до 3–5 тонн выгоднее сборная доставка (LCL / сборная фура), так как вы оплачиваете только занятое место в транспорте. При объёме от 18–20 м³ стоит сравнить ставку с отдельным 20-футовым контейнером (FCL).'
+  },
+  {
+    q: 'Включена ли растаможка и НДС 12% в расчёт калькулятора?',
+    a: 'Калькулятор показывает ориентировочную стоимость самой перевозки (фрахта). Таможенная пошлина по ЕТТ ЕАЭС и импортный НДС 12% в Казахстане рассчитываются отдельно по коду ТН ВЭД и инвойсной стоимости — вы можете оценить их в нашем таможенном калькуляторе.'
+  },
+  {
+    q: 'Сколько времени занимает доставка груза из Китая в Алматы и Астану?',
+    a: 'Автодоставка из Китая (Гуанчжоу, Иу, Урумчи) через Хоргос занимает в среднем 12–18 дней, ЖД-контейнер — 18–25 дней, срочная авиадоставка — 3–6 дней. Сроки зависят от готовности товара и очереди на погранпереходе.'
+  }
+]
+
+const relatedTools = [
+  ...TOOLS_DATA.filter(x => x.slug !== 'delivery-calculator'),
+  { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+]
+
 usePageSeo({
-  title: 'Калькулятор доставки грузов из Китая, Турции и РФ в Казахстан онлайн | INTER WAY',
+  title: 'Калькулятор доставки грузов из Китая и мира в РК | INTER WAY',
   description: 'Удобный онлайн-калькулятор ориентировочной стоимости доставки грузов из Китая, Турции, России и Европы в Алматы и Астану.',
   path: '/tools/delivery-calculator',
   keywords: 'калькулятор доставки из китая в казахстан, рассчитать стоимость доставки из китая, калькулятор карго казахстан, калькулятор доставки из турции в казахстан',
@@ -79,6 +104,7 @@ usePageSeo({
     { name: 'Калькуляторы', path: '/tools' },
     { name: 'Калькулятор доставки', path: '/tools/delivery-calculator' }
   ],
+  faqs,
   webApp: {
     name: 'Калькулятор стоимости доставки грузов в Казахстан INTER WAY',
     category: 'BusinessApplication'
@@ -286,9 +312,68 @@ usePageSeo({
           </div>
         </div>
 
-        <div class="mt-14 pt-10 border-t border-slate-200 flex flex-wrap gap-3">
+        <!-- Полезный SEO-блок: формулы, коэффициенты, пример и налоги в РК -->
+        <div class="mt-14 grid gap-6 lg:grid-cols-2">
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Формулы расчёта и коэффициенты плотности груза
+            </h2>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              При расчёте стоимости международной перевозки из Китая, Турции или Европы логисты используют <strong>оплачиваемый вес</strong> — большее значение между фактическим весом брутто и объёмным весом.
+            </p>
+            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
+              <div><strong>Авто и сборные грузы (LCL):</strong> Объёмный вес (кг) = Объём (м³) × 250 (или коэффициент 333 кг/м³ для лёгких грузов).</div>
+              <div><strong>Авиадоставка:</strong> Объёмный вес (кг) = Объём (м³) × 167 (формула Д × Ш × В в см / 6000).</div>
+              <div><strong>Пример расчёта:</strong> Партия из Китая в Алматы весом 400 кг и объёмом 2.4 м³. Объёмный вес для авто = 2.4 × 250 = 600 кг. Так как 600 кг &gt; 400 кг, расчёт идёт по 600 кг (~$720–$1 080).</div>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              При «белой» доставке в Казахстан дополнительно учитываются таможенная пошлина по ЕТТ ЕАЭС (обычно 0–10% в зависимости от кода ТН ВЭД) и <strong>НДС 12%</strong> от суммы таможенной стоимости и пошлины.
+            </p>
+          </div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Частые вопросы по расчёту доставки
+            </h2>
+            <div class="space-y-4">
+              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
+                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Перелинковка на маршруты и услуги -->
+        <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-4">
+            Популярные маршруты и услуги логистики
+          </h2>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <NuxtLink to="/routes/china-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка грузов Китай → Алматы →
+            </NuxtLink>
+            <NuxtLink to="/routes/china-astana" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка грузов Китай → Астана →
+            </NuxtLink>
+            <NuxtLink to="/routes/turkey-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка грузов Турция → Алматы →
+            </NuxtLink>
+            <NuxtLink to="/services/white-delivery-china" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Белая доставка из Китая под ключ →
+            </NuxtLink>
+            <NuxtLink to="/services/consolidated-cargo" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Сборные грузы (LCL / карго) →
+            </NuxtLink>
+            <NuxtLink to="/services/customs" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Таможенное оформление в РК →
+            </NuxtLink>
+          </div>
+        </div>
+
+        <div class="mt-10 pt-8 border-t border-slate-200 flex flex-wrap gap-3">
           <NuxtLink
-            v-for="t in TOOLS_DATA.filter(x => x.slug !== 'delivery-calculator')"
+            v-for="t in relatedTools"
             :key="t.slug"
             :to="`/tools/${t.slug}`"
             class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-700 transition-colors hover:border-slate-400"

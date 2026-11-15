@@ -17,6 +17,42 @@ const currentRoute = computed(() => {
 
 const otherRoutes = computed(() => ROUTES_DATA.filter((r) => r.slug !== slug.value))
 
+const ROUTE_TOOLS = {
+  delivery: {
+    to: '/tools/delivery-calculator',
+    title: 'Калькулятор доставки',
+    desc: 'Оценка стоимости перевозки авто, ЖД и авиатранспортом.'
+  },
+  customs: {
+    to: '/tools/customs-calculator',
+    title: 'Калькулятор растаможки',
+    desc: 'Расчет пошлины, сбора и НДС 12% при ввозе в Казахстан.'
+  },
+  container: {
+    to: '/tools/container-load-calculator',
+    title: 'Загрузка контейнера и фуры',
+    desc: 'Расчет вместимости 20ft, 40ft, 40HQ и еврофуры.'
+  },
+  tnved: {
+    to: '/tools/tnved-directory',
+    title: 'Справочник кодов ТН ВЭД',
+    desc: 'Подбор кода ТН ВЭД ЕАЭС, пошлины и требования к сертификации.'
+  },
+  rail: {
+    to: '/tools/rail-distance-calculator',
+    title: 'Маршруты по Казахстану',
+    desc: 'Расчет ЖД и автоперевозки между городами и станциями РК.'
+  }
+} as const
+
+const relevantRouteTools = computed(() => {
+  const s = currentRoute.value.slug
+  if (s === 'almaty-astana' || s === 'russia-kazakhstan') {
+    return [ROUTE_TOOLS.delivery, ROUTE_TOOLS.rail, ROUTE_TOOLS.container]
+  }
+  return [ROUTE_TOOLS.delivery, ROUTE_TOOLS.customs, ROUTE_TOOLS.tnved, ROUTE_TOOLS.container]
+})
+
 usePageSeo({
   title: currentRoute.value.seoTitle,
   description: currentRoute.value.seoDescription,
@@ -102,6 +138,30 @@ usePageSeo({
           <p class="text-base text-gray-300 leading-relaxed">
             {{ currentRoute.customsNotes }}
           </p>
+        </div>
+
+        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-8 md:p-10">
+          <h2 class="text-2xl font-bold text-slate-900 mb-2">
+            Калькуляторы для этого маршрута
+          </h2>
+          <p class="text-sm text-gray-600 mb-6">
+            Рассчитайте ориентировочную стоимость перевозки, таможенных платежей и загрузку транспорта онлайн.
+          </p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <NuxtLink
+              v-for="tool in relevantRouteTools"
+              :key="tool.to"
+              :to="tool.to"
+              class="group rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-blue-500"
+            >
+              <div class="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                {{ tool.title }} →
+              </div>
+              <p class="mt-1.5 text-sm text-gray-600 leading-relaxed">
+                {{ tool.desc }}
+              </p>
+            </NuxtLink>
+          </div>
         </div>
 
         <div v-if="currentRoute.faqs.length > 0" class="space-y-4">

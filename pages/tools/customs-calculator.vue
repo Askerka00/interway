@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { TOOLS_DATA } from '~/data/seoData'
 import { usePageSeo } from '~/composables/usePageSeo'
+
+const route = useRoute()
 
 const categories = [
   { id: 'machinery', name: 'Оборудование, станки и техника (пошлина ~0–5%)', dutyRate: 3 },
@@ -12,30 +15,62 @@ const categories = [
   { id: 'electronics', name: 'Электроника, компьютеры и гаджеты (пошлина ~0–3%)', dutyRate: 0 }
 ]
 
+const queryDuty = route.query.duty !== undefined ? Number(route.query.duty) : NaN
+const queryName = typeof route.query.name === 'string' ? route.query.name : ''
+const customDutyRate = ref<number | null>(!Number.isNaN(queryDuty) ? queryDuty : null)
+
 const selectedCategoryId = ref('machinery')
 const invoiceUsd = ref(10000)
 const deliveryUsd = ref(1500)
 const usdRate = ref(495)
 
 const currentCategory = computed(() => categories.find((c) => c.id === selectedCategoryId.value) || categories[0]!)
+const effectiveDutyRate = computed(() => (customDutyRate.value !== null ? customDutyRate.value : currentCategory.value.dutyRate))
 
 const customsValueUsd = computed(() => (Number(invoiceUsd.value) || 0) + (Number(deliveryUsd.value) || 0))
 const customsFeeUsd = 50
-const dutyUsd = computed(() => Math.round(customsValueUsd.value * (currentCategory.value.dutyRate / 100)))
+const dutyUsd = computed(() => Math.round(customsValueUsd.value * (effectiveDutyRate.value / 100)))
 const vatUsd = computed(() => Math.round((customsValueUsd.value + customsFeeUsd + dutyUsd.value) * 0.12))
 const totalUsd = computed(() => customsFeeUsd + dutyUsd.value + vatUsd.value)
 const totalKzt = computed(() => Math.round(totalUsd.value * (Number(usdRate.value) || 495)))
 
 const whatsappCustomsUrl = computed(() => {
+  const label = queryName || currentCategory.value.name.split('(')[0]?.trim()
   const text = `Здравствуйте! Хочу узнать стоимость растаможки груза:
-• Категория товара: ${currentCategory.value.name.split('(')[0]?.trim()}
+• Категория / товар: ${label}
+• Ставка пошлины: ${effectiveDutyRate.value}%
 • Стоимость товара по инвойсу: $${invoiceUsd.value}
 • Подскажите точный расчет таможенных платежей и ваших услуг.`
   return `https://wa.me/77003003390?text=${encodeURIComponent(text)}`
 })
 
+const faqs = [
+  {
+    q: 'Как рассчитывается НДС 12% при растаможке товара в Казахстане?',
+    a: 'В Казахстане базовая ставка импортного НДС составляет 12%. Налог начисляется не только на цену товара, а на сумму: Таможенная стоимость (инвойс + доставка до границы ЕАЭС) + Таможенная пошлина + Таможенный сбор (или акциз для подакцизных товаров).'
+  },
+  {
+    q: 'Что входит в таможенную стоимость товара при импорте в РК?',
+    a: 'По правилам ЕАЭС в таможенную стоимость (базу для расчёта пошлины) включается стоимость товара по инвойсу (FOB/EXW) плюс расходы на доставку и страхование до границы ЕАЭС (условие CIF/CIP граница).'
+  },
+  {
+    q: 'От чего зависит ставка ввозной таможенной пошлины в Казахстане?',
+    a: 'Ставка пошлины определяется строго по 10-значному коду ТН ВЭД ЕАЭС согласно Единому таможенному тарифу (ЕТТ ЕАЭС). На многие виды промышленного оборудования ставка составляет 0%, на автозапчасти — 5%, на одежду и обувь — 7.5–12% (или комбинированная ставка в евро за кг/пару).'
+  },
+  {
+    q: 'Какие документы нужны для белой растаможки груза из Китая или Турции?',
+    a: 'Потребуются внешнеторговый контракт, инвойс (Invoice), упаковочный лист (Packing List), транспортная накладная (CMR / AWB / ЖД-накладная), экспортная декларация и разрешительные документы (декларация или сертификат соответствия ТР ТС при необходимости).'
+  }
+]
+
+const relatedTools = [
+  ...TOOLS_DATA.filter(x => x.slug !== 'customs-calculator'),
+  { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+]
+
 usePageSeo({
-  title: 'Калькулятор растаможки товаров в Казахстане онлайн — пошлина и НДС | INTER WAY',
+  title: 'Калькулятор растаможки товара в Казахстане 2026 | INTER WAY',
   description: 'Простой онлайн-калькулятор растаможки товаров в Казахстане: рассчитайте примерную сумму таможенной пошлины и НДС 12% при ввозе груза.',
   path: '/tools/customs-calculator',
   keywords: 'таможенный калькулятор казахстан 2026, калькулятор растаможки товаров казахстан, расчет таможенных платежей рк онлайн',
@@ -44,6 +79,7 @@ usePageSeo({
     { name: 'Калькуляторы', path: '/tools' },
     { name: 'Калькулятор растаможки', path: '/tools/customs-calculator' }
   ],
+  faqs,
   webApp: {
     name: 'Калькулятор растаможки товаров в Казахстане INTER WAY',
     category: 'FinanceApplication'
@@ -88,12 +124,16 @@ usePageSeo({
               </label>
               <select
                 v-model="selectedCategoryId"
+                @change="customDutyRate = null"
                 class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-blue-600 focus:outline-none"
               >
                 <option v-for="c in categories" :key="c.id" :value="c.id">
                   {{ c.name }}
                 </option>
               </select>
+              <div v-if="queryName" class="mt-2 rounded-xl bg-blue-50 px-3.5 py-2 text-xs font-medium text-blue-800">
+                Выбран товар из справочника ТН ВЭД: <strong>{{ queryName }}</strong> (пошлина {{ effectiveDutyRate }}%)
+              </div>
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
@@ -124,6 +164,37 @@ usePageSeo({
                 />
               </div>
             </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+                  Ставка пошлины (%)
+                </label>
+                <input
+                  :value="effectiveDutyRate"
+                  @input="customDutyRate = Number(($event.target as HTMLInputElement).value) || 0"
+                  type="number"
+                  min="0"
+                  max="50"
+                  step="0.5"
+                  data-clarity-unmask="true"
+                  class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+                  Курс USD / KZT (₸)
+                </label>
+                <input
+                  v-model.number="usdRate"
+                  type="number"
+                  min="100"
+                  step="1"
+                  data-clarity-unmask="true"
+                  class="w-full rounded-xl border border-slate-300 px-4 py-3 text-base font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
+                />
+              </div>
+            </div>
           </div>
 
           <div class="lg:col-span-6 space-y-6">
@@ -138,7 +209,7 @@ usePageSeo({
                   <span class="font-bold text-white">~$50</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-white/10">
-                  <span class="text-gray-400">Ввозная пошлина (~{{ currentCategory.dutyRate }}%):</span>
+                  <span class="text-gray-400">Ввозная пошлина (~{{ effectiveDutyRate }}%):</span>
                   <span class="font-bold text-white">~${{ dutyUsd.toLocaleString('ru-RU') }}</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-white/10">
@@ -180,9 +251,69 @@ usePageSeo({
           </div>
         </div>
 
-        <div class="mt-14 pt-10 border-t border-slate-200 flex flex-wrap gap-3">
+        <!-- SEO-блок: формулы таможенных платежей в РК -->
+        <div class="mt-14 grid gap-6 lg:grid-cols-2">
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Формула расчёта пошлины и НДС 12% в Казахстане
+            </h2>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Таможенная очистка товаров, ввозимых из Китая, Турции и других стран вне ЕАЭС, включает три обязательных платежа:
+            </p>
+            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
+              <div><strong>1. Таможенная стоимость (ТС):</strong> Стоимость товара по инвойсу + доставка до границы ЕАЭС.</div>
+              <div><strong>2. Ввозная пошлина (ЕАЭС):</strong> ТС × Ставка по коду ТН ВЭД (0–15%).</div>
+              <div><strong>3. Импортный НДС (12% в РК):</strong> (ТС + Пошлина + Таможенный сбор) × 12%.</div>
+              <div><strong>Пример:</strong> Товар $10 000 + доставка $1 500 = ТС $11 500. При пошлине 5% ($575) и сборе $50, база для НДС составит $12 125, а НДС 12% = $1 455. Итого платежей: ~$2 080.</div>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Не знаете точную ставку по вашему товару? Откройте наш <NuxtLink to="/tools/tnved-directory" class="text-blue-600 font-semibold hover:underline">Справочник кодов ТН ВЭД ЕАЭС</NuxtLink> и передайте ставку прямо в калькулятор.
+            </p>
+          </div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Частые вопросы по растаможке в РК
+            </h2>
+            <div class="space-y-4">
+              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
+                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Перелинковка на маршруты и услуги -->
+        <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-4">
+            Услуги таможенного оформления и популярные маршруты
+          </h2>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <NuxtLink to="/services/customs" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Таможенное оформление в Казахстане →
+            </NuxtLink>
+            <NuxtLink to="/services/white-delivery-china" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Белая доставка из Китая с ГТД →
+            </NuxtLink>
+            <NuxtLink to="/services/consolidated-cargo" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Сборные грузы из Китая и Турции →
+            </NuxtLink>
+            <NuxtLink to="/routes/china-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Китай → Алматы →
+            </NuxtLink>
+            <NuxtLink to="/routes/china-astana" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Китай → Астана →
+            </NuxtLink>
+            <NuxtLink to="/routes/turkey-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Турция → Алматы →
+            </NuxtLink>
+          </div>
+        </div>
+
+        <div class="mt-10 pt-8 border-t border-slate-200 flex flex-wrap gap-3">
           <NuxtLink
-            v-for="t in TOOLS_DATA.filter(x => x.slug !== 'customs-calculator')"
+            v-for="t in relatedTools"
             :key="t.slug"
             :to="`/tools/${t.slug}`"
             class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-700 transition-colors hover:border-slate-400"

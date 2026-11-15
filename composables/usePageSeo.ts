@@ -5,6 +5,8 @@ export function usePageSeo(options: {
   description: string
   path: string
   keywords?: string
+  noindex?: boolean
+  ogImage?: string
   breadcrumbs?: { name: string; path: string }[]
   faqs?: { q: string; a: string }[]
   service?: ServiceItem
@@ -14,7 +16,13 @@ export function usePageSeo(options: {
     category: string
   }
 }) {
-  const canonicalUrl = `${COMPANY_INFO.url}${options.path === '/' ? '' : options.path}`
+  const normalizePath = (p: string) => {
+    if (!p || p === '/') return ''
+    return p.replace(/\/+$/, '')
+  }
+
+  const canonicalUrl = `${COMPANY_INFO.url}${normalizePath(options.path)}`
+  const ogImageUrl = options.ogImage || `${COMPANY_INFO.url}/android-chrome-192x192.png`
 
   useSeoMeta({
     title: options.title,
@@ -23,9 +31,13 @@ export function usePageSeo(options: {
     ogTitle: options.title,
     ogDescription: options.description,
     ogUrl: canonicalUrl,
+    ogImage: ogImageUrl,
     twitterTitle: options.title,
     twitterDescription: options.description,
-    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+    twitterImage: ogImageUrl,
+    robots: options.noindex
+      ? 'noindex, nofollow'
+      : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
   })
 
   const schemaGraph: Record<string, any>[] = [
@@ -71,7 +83,7 @@ export function usePageSeo(options: {
         '@type': 'ListItem',
         position: idx + 1,
         name: item.name,
-        item: `${COMPANY_INFO.url}${item.path === '/' ? '' : item.path}`
+        item: `${COMPANY_INFO.url}${normalizePath(item.path)}`
       }))
     })
   }

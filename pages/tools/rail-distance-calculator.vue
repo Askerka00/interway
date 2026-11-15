@@ -67,8 +67,33 @@ const whatsappRailUrl = computed(() => {
   return `https://wa.me/77003003390?text=${encodeURIComponent(text)}`
 })
 
+const faqs = [
+  {
+    q: 'Как рассчитывается расстояние между ЖД станциями и городами Казахстана?',
+    a: 'Калькулятор вычисляет протяжённость маршрута между ключевыми транспортными узлами и погранпереходами РК (Достык, Алтынколь/Хоргос, Алматы, Астана, Шымкент, Актобе, Актау) с учётом коэффициента дорожной и железнодорожной сети (×1.28).'
+  },
+  {
+    q: 'Когда выгоднее везти груз по ЖД, а когда отдельной еврофурой?',
+    a: 'Еврофура быстрее на коротких и средних плечах (например, Хоргос – Алматы или Алматы – Астана — 1–3 дня) и удобна доставкой «от двери до двери». Контейнер или крытый вагон по ЖД выигрывает по цене на дальних маршрутах (свыше 1 500–2 000 км, например в Актау/Атырау) и при тяжелых грузах от 22 до 68 тонн.'
+  },
+  {
+    q: 'Сколько стоит доставка 20- и 40-футового контейнера со станции Достык / Алтынколь в Алматы или Астану?',
+    a: 'Ставка зависит от типа контейнера (20’ или 40’), веса брутто, сезона и наличия обратной загрузки. Калькулятор даёт ориентир по рынку в тенге; точную ставку с учётом терминальной обработки и подачи под выгрузку менеджер назовёт за 15 минут.'
+  },
+  {
+    q: 'Облагаются ли ЖД и автоперевозки по Казахстану НДС 12%?',
+    a: 'Да, внутренние перевозки по территории Республики Казахстан стандартно включают НДС 12% (для плательщиков НДС). Международные транзитные и экспортно-импортные перевозки через границу могут облагаться по ставке 0% при подтверждении международного сообщения.'
+  }
+]
+
+const relatedTools = [
+  ...TOOLS_DATA.filter(x => x.slug !== 'rail-distance-calculator'),
+  { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+]
+
 usePageSeo({
-  title: 'Расчет ЖД и автоперевозки по Казахстану онлайн | INTER WAY',
+  title: 'Калькулятор ЖД расстояний между станциями Казахстана | INTER WAY',
   description: 'Простой онлайн-калькулятор стоимости перевозки между городами Казахстана (Алматы, Астана, Шымкент, Актау, Хоргос) фурой, контейнером или вагоном.',
   path: '/tools/rail-distance-calculator',
   keywords: 'расчет жд тарифа казахстан онлайн, расчет расстояния между городами казахстана для грузоперевозок, грузоперевозки алматы астана цена',
@@ -77,6 +102,7 @@ usePageSeo({
     { name: 'Калькуляторы', path: '/tools' },
     { name: 'Расчет по Казахстану', path: '/tools/rail-distance-calculator' }
   ],
+  faqs,
   webApp: {
     name: 'Калькулятор перевозок по Казахстану INTER WAY',
     category: 'BusinessApplication'
@@ -213,9 +239,66 @@ usePageSeo({
           </div>
         </div>
 
-        <div class="mt-14 pt-10 border-t border-slate-200 flex flex-wrap gap-3">
+        <!-- SEO-блок: формулы ЖД и автотарифов по РК -->
+        <div class="mt-14 grid gap-6 lg:grid-cols-2">
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Как формируется тариф на ЖД и автоперевозки по Казахстану
+            </h2>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Стоимость доставки между городами и станциями РК складывается из базовой ставки подачи транспорта, тарифного расстояния и типа подвижного состава.
+            </p>
+            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
+              <div><strong>Еврофура (до 20 т / 86–90 м³):</strong> Оптимальна для маршрутов до 1 500 км (Хоргос – Алматы, Алматы – Астана). Включает погрузку и выгрузку на складах.</div>
+              <div><strong>ЖД-контейнер (20’ / 40’):</strong> Выгоден на плечах от 1 000 км и при транзите через Достык / Алтынколь без перегруза на границе.</div>
+              <div><strong>Крытый вагон (до 68 т):</strong> Максимальная экономия на тонну груза при оптовых партиях стройматериалов, оборудования и сырья.</div>
+              <div><strong>Пример:</strong> Маршрут Алматы → Астана (~1 240 км). Ставка отдельной фуры ориентировочно 410 000 – 550 000 ₸ с учётом НДС 12% для внутриказахстанских перевозок.</div>
+            </div>
+          </div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+            <h2 class="text-xl font-bold text-slate-900">
+              Частые вопросы по ЖД и автоперевозкам в РК
+            </h2>
+            <div class="space-y-4">
+              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
+                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Перелинковка на маршруты и услуги -->
+        <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-4">
+            Популярные маршруты и услуги логистики
+          </h2>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <NuxtLink to="/routes/china-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Китай → Алматы →
+            </NuxtLink>
+            <NuxtLink to="/routes/china-astana" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Китай → Астана →
+            </NuxtLink>
+            <NuxtLink to="/routes/turkey-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Доставка Турция → Алматы →
+            </NuxtLink>
+            <NuxtLink to="/services/white-delivery-china" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Белая доставка из Китая →
+            </NuxtLink>
+            <NuxtLink to="/services/consolidated-cargo" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Сборные грузы по РК и СНГ →
+            </NuxtLink>
+            <NuxtLink to="/services/customs" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
+              Таможенное оформление в РК →
+            </NuxtLink>
+          </div>
+        </div>
+
+        <div class="mt-10 pt-8 border-t border-slate-200 flex flex-wrap gap-3">
           <NuxtLink
-            v-for="t in TOOLS_DATA.filter(x => x.slug !== 'rail-distance-calculator')"
+            v-for="t in relatedTools"
             :key="t.slug"
             :to="`/tools/${t.slug}`"
             class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-700 transition-colors hover:border-slate-400"

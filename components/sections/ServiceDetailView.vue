@@ -10,6 +10,55 @@ const props = defineProps<{
 const service = computed(() => SERVICES_DATA.find((s) => s.slug === props.slug) || SERVICES_DATA[0]!)
 const otherServices = computed(() => SERVICES_DATA.filter((s) => s.slug !== props.slug))
 
+const TOOL_CARDS = {
+  delivery: {
+    to: '/tools/delivery-calculator',
+    title: 'Калькулятор доставки',
+    desc: 'Предварительный расчет стоимости авто, ЖД и авиаперевозки.'
+  },
+  customs: {
+    to: '/tools/customs-calculator',
+    title: 'Калькулятор растаможки',
+    desc: 'Расчет таможенного сбора, ввозной пошлины и НДС 12% в РК.'
+  },
+  container: {
+    to: '/tools/container-load-calculator',
+    title: 'Загрузка контейнера и фуры',
+    desc: 'Подбор контейнера 20/40 футов или еврофуры под ваши коробки.'
+  },
+  tnved: {
+    to: '/tools/tnved-directory',
+    title: 'Справочник кодов ТН ВЭД',
+    desc: 'Поиск кода ТН ВЭД ЕАЭС, ставки пошлины и требований сертификации.'
+  },
+  rail: {
+    to: '/tools/rail-distance-calculator',
+    title: 'Маршруты по Казахстану',
+    desc: 'Оценка ЖД и автоперевозки между городами и станциями РК.'
+  }
+} as const
+
+const relevantTools = computed(() => {
+  const s = service.value.slug
+  if (s === 'white-delivery-china' || s === 'customs') {
+    return [TOOL_CARDS.customs, TOOL_CARDS.tnved, TOOL_CARDS.delivery]
+  }
+  if (s === 'rail' || s === 'air-rail') {
+    return [TOOL_CARDS.rail, TOOL_CARDS.container, TOOL_CARDS.delivery]
+  }
+  if (s === 'sea') {
+    return [TOOL_CARDS.container, TOOL_CARDS.delivery, TOOL_CARDS.customs]
+  }
+  if (s === 'consolidated-cargo' || s === 'warehouse') {
+    return [TOOL_CARDS.delivery, TOOL_CARDS.container, TOOL_CARDS.customs]
+  }
+  if (s === 'air') {
+    return [TOOL_CARDS.delivery, TOOL_CARDS.customs, TOOL_CARDS.tnved]
+  }
+  // road и прочие
+  return [TOOL_CARDS.delivery, TOOL_CARDS.container, TOOL_CARDS.rail]
+})
+
 const openFaqIdx = ref<number | null>(0)
 const toggleFaq = (idx: number) => {
   openFaqIdx.value = openFaqIdx.value === idx ? null : idx
@@ -114,6 +163,36 @@ usePageSeo({
                 {{ b.desc }}
               </p>
             </div>
+          </div>
+        </div>
+
+        <div class="mt-20">
+          <div class="max-w-2xl mb-8">
+            <h2 class="text-2xl font-bold text-slate-900 md:text-3xl">
+              Онлайн-калькуляторы и справочники
+            </h2>
+            <p class="mt-2 text-base text-gray-600">
+              Рассчитайте ориентировочный бюджет и параметры перевозки самостоятельно за пару минут.
+            </p>
+          </div>
+
+          <div class="grid gap-6 md:grid-cols-3">
+            <NuxtLink
+              v-for="tool in relevantTools"
+              :key="tool.to"
+              :to="tool.to"
+              class="group rounded-3xl border border-slate-200 bg-slate-50 p-7 transition-colors hover:border-blue-500 hover:bg-white"
+            >
+              <div class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2">
+                Инструмент
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                {{ tool.title }} →
+              </h3>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {{ tool.desc }}
+              </p>
+            </NuxtLink>
           </div>
         </div>
       </div>

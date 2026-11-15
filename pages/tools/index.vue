@@ -2,11 +2,29 @@
 import { TOOLS_DATA } from '~/data/seoData'
 import { usePageSeo } from '~/composables/usePageSeo'
 
+const allTools = [
+  ...TOOLS_DATA,
+  {
+    slug: 'container-load-calculator',
+    title: 'Калькулятор загрузки контейнера и объёмного веса',
+    shortTitle: 'Загрузка контейнера и объёмный вес',
+    badge: '20’GP • 40’HC • Фура • LCL/FCL',
+    subtitle: 'Расчёт вместимости коробок и паллет в 20/40 фут и еврофуру 86–120 м³, объёмного веса (K=5000/6000/3000) и рекомендации LCL vs FCL.'
+  },
+  {
+    slug: 'tnved-directory',
+    title: 'Справочник кодов ТН ВЭД ЕАЭС и ставок пошлин',
+    shortTitle: 'Справочник ТН ВЭД ЕАЭС',
+    badge: 'ЕТТ ЕАЭС • НДС 12% • ТР ТС',
+    subtitle: 'Поиск популярных кодов ТН ВЭД для Казахстана: ставки пошлин, импортный НДС 12% и требования сертификации ТР ТС.'
+  }
+]
+
 usePageSeo({
   title: 'Онлайн-калькуляторы логистики и растаможки в Казахстане | INTER WAY',
-  description: 'Удобные онлайн-калькуляторы для расчета стоимости доставки грузов из Китая, Турции и России, расчета таможенных платежей в Казахстане и объема груза в кубометрах.',
+  description: 'Удобные онлайн-калькуляторы для расчета стоимости доставки грузов из Китая, Турции и России, загрузки контейнеров, кодов ТН ВЭД и растаможки в Казахстане.',
   path: '/tools',
-  keywords: 'калькулятор доставки из китая в казахстан, таможенный калькулятор казахстан, расчет объема груза м3 калькулятор, расчет грузоперевозки по казахстану',
+  keywords: 'калькулятор доставки из китая в казахстан, таможенный калькулятор казахстан, расчет объема груза м3 калькулятор, калькулятор загрузки контейнера, справочник тн вэд еаэс',
   breadcrumbs: [
     { name: 'Главная', path: '/' },
     { name: 'Калькуляторы', path: '/tools' }
@@ -39,7 +57,7 @@ usePageSeo({
       <div class="container mx-auto px-6 md:px-12">
         <div class="grid gap-6 md:grid-cols-2">
           <NuxtLink
-            v-for="tool in TOOLS_DATA"
+            v-for="tool in allTools"
             :key="tool.slug"
             :to="`/tools/${tool.slug}`"
             class="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-8 transition-colors hover:border-slate-400 md:p-10"

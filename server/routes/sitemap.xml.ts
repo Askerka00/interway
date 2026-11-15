@@ -2,15 +2,13 @@ import { COMPANY_INFO, SERVICES_DATA, ROUTES_DATA, TOOLS_DATA } from '~/data/seo
 
 export default defineEventHandler((event) => {
   const baseUrl = COMPANY_INFO.url
-  const lastmod = new Date().toISOString().split('T')[0]
 
   const staticPages = [
     { url: '/', priority: '1.0', changefreq: 'weekly' },
     { url: '/services', priority: '0.9', changefreq: 'weekly' },
     { url: '/routes', priority: '0.9', changefreq: 'weekly' },
     { url: '/tools', priority: '0.95', changefreq: 'weekly' },
-    { url: '/contacts', priority: '0.8', changefreq: 'monthly' },
-    { url: '/privacy', priority: '0.3', changefreq: 'yearly' }
+    { url: '/contacts', priority: '0.8', changefreq: 'monthly' }
   ]
 
   const servicePages = SERVICES_DATA.map((s) => ({
@@ -39,7 +37,6 @@ ${allUrls
   .map(
     (item) => `  <url>
     <loc>${baseUrl}${item.url}</loc>
-    <lastmod>${lastmod}</lastmod>
     <changefreq>${item.changefreq}</changefreq>
     <priority>${item.priority}</priority>
   </url>`
