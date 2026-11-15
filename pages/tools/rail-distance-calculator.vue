@@ -4,7 +4,7 @@ import { TOOLS_DATA } from '~/data/seoData'
 import { usePageSeo } from '~/composables/usePageSeo'
 
 const points = [
-  { id: 'horgos', name: 'Граница Китая (Хоргос / Достык)', lat: 44.197, lng: 80.511 },
+  { id: 'horgos', name: 'Граница Китая — Хоргос / Достык', lat: 44.197, lng: 80.511 },
   { id: 'almaty', name: 'Алматы', lat: 43.341, lng: 76.949 },
   { id: 'astana', name: 'Астана', lat: 51.196, lng: 71.408 },
   { id: 'shymkent', name: 'Шымкент', lat: 42.300, lng: 69.596 },
@@ -54,9 +54,9 @@ const priceRangeKzt = computed(() => {
 })
 
 const transportName = computed(() => {
-  if (transportType.value === 'truck') return 'Отдельная еврофура (до 20 тонн)'
-  if (transportType.value === 'container') return 'Контейнер по Ж/Д (20 или 40 футов)'
-  return 'Железнодорожный вагон (до 68 тонн)'
+  if (transportType.value === 'truck') return 'Отдельная еврофура до 20 тонн'
+  if (transportType.value === 'container') return 'Контейнер по железной дороге — 20 или 40 футов'
+  return 'Железнодорожный вагон до 68 тонн'
 })
 
 const whatsappRailUrl = computed(() => {
@@ -69,32 +69,28 @@ const whatsappRailUrl = computed(() => {
 
 const faqs = [
   {
-    q: 'Как рассчитывается расстояние между ЖД станциями и городами Казахстана?',
-    a: 'Калькулятор вычисляет протяжённость маршрута между ключевыми транспортными узлами и погранпереходами РК (Достык, Алтынколь/Хоргос, Алматы, Астана, Шымкент, Актобе, Актау) с учётом коэффициента дорожной и железнодорожной сети (×1.28).'
+    q: 'Как рассчитывается расстояние между городами Казахстана?',
+    a: 'Калькулятор вычисляет протяжённость маршрута между ключевыми городами и погранпереходами Казахстана с учётом реальной дорожной и железнодорожной сети.'
   },
   {
-    q: 'Когда выгоднее везти груз по ЖД, а когда отдельной еврофурой?',
-    a: 'Еврофура быстрее на коротких и средних плечах (например, Хоргос – Алматы или Алматы – Астана — 1–3 дня) и удобна доставкой «от двери до двери». Контейнер или крытый вагон по ЖД выигрывает по цене на дальних маршрутах (свыше 1 500–2 000 км, например в Актау/Атырау) и при тяжелых грузах от 22 до 68 тонн.'
+    q: 'Когда выгоднее везти по железной дороге, а когда еврофурой?',
+    a: 'Еврофура быстрее на коротких и средних расстояниях и удобна доставкой от двери до двери. Контейнер или вагон по железной дороге выгоднее на дальних маршрутах свыше 1500 км и при тяжёлых грузах от 22 до 68 тонн.'
   },
   {
-    q: 'Сколько стоит доставка 20- и 40-футового контейнера со станции Достык / Алтынколь в Алматы или Астану?',
-    a: 'Ставка зависит от типа контейнера (20’ или 40’), веса брутто, сезона и наличия обратной загрузки. Калькулятор даёт ориентир по рынку в тенге; точную ставку с учётом терминальной обработки и подачи под выгрузку менеджер назовёт за 15 минут.'
-  },
-  {
-    q: 'Облагаются ли ЖД и автоперевозки по Казахстану НДС 12%?',
-    a: 'Да, внутренние перевозки по территории Республики Казахстан стандартно включают НДС 12% (для плательщиков НДС). Международные транзитные и экспортно-импортные перевозки через границу могут облагаться по ставке 0% при подтверждении международного сообщения.'
+    q: 'Включён ли НДС 12% в расчёт стоимости?',
+    a: 'Внутренние перевозки по Казахстану стандартно включают НДС 12%. Точную стоимость с учётом подачи транспорта и погрузки менеджер рассчитает за 15 минут.'
   }
 ]
 
 const relatedTools = [
   ...TOOLS_DATA.filter(x => x.slug !== 'rail-distance-calculator'),
   { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
-  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД' }
 ]
 
 usePageSeo({
   title: 'Калькулятор ЖД расстояний между станциями Казахстана | INTER WAY',
-  description: 'Простой онлайн-калькулятор стоимости перевозки между городами Казахстана (Алматы, Астана, Шымкент, Актау, Хоргос) фурой, контейнером или вагоном.',
+  description: 'Простой онлайн-калькулятор стоимости перевозки между городами Казахстана: Алматы, Астана, Шымкент, Актау, Хоргос — фурой, контейнером или вагоном.',
   path: '/tools/rail-distance-calculator',
   keywords: 'расчет жд тарифа казахстан онлайн, расчет расстояния между городами казахстана для грузоперевозок, грузоперевозки алматы астана цена',
   breadcrumbs: [
@@ -124,7 +120,7 @@ usePageSeo({
 
         <div class="max-w-3xl">
           <h1 class="text-3xl font-bold leading-tight md:text-5xl">
-            Калькулятор перевозок по Казахстану (Авто и Ж/Д)
+            Калькулятор перевозок по Казахстану
           </h1>
           <p class="mt-4 text-lg text-gray-300 max-w-2xl">
             Выберите город отправления, город назначения и тип транспорта, чтобы оценить расстояние и предварительную стоимость перевозки.
@@ -176,7 +172,7 @@ usePageSeo({
                   class="rounded-xl p-3.5 text-left border text-sm font-bold transition-colors"
                   :class="transportType === 'truck' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-800 border-slate-200'"
                 >
-                  Отдельная еврофура (до 20 тонн)
+                  Отдельная еврофура до 20 тонн
                 </button>
                 <button
                   type="button"
@@ -184,7 +180,7 @@ usePageSeo({
                   class="rounded-xl p-3.5 text-left border text-sm font-bold transition-colors"
                   :class="transportType === 'container' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-800 border-slate-200'"
                 >
-                  Контейнер по железной дороге (20 или 40 футов)
+                  Контейнер по железной дороге — 20 или 40 футов
                 </button>
                 <button
                   type="button"
@@ -192,7 +188,7 @@ usePageSeo({
                   class="rounded-xl p-3.5 text-left border text-sm font-bold transition-colors"
                   :class="transportType === 'wagon' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-800 border-slate-200'"
                 >
-                  Крытый вагон или полувагон (до 68 тонн)
+                  Крытый вагон или полувагон до 68 тонн
                 </button>
               </div>
             </div>
@@ -239,32 +235,15 @@ usePageSeo({
           </div>
         </div>
 
-        <!-- SEO-блок: формулы ЖД и автотарифов по РК -->
-        <div class="mt-14 grid gap-6 lg:grid-cols-2">
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Как формируется тариф на ЖД и автоперевозки по Казахстану
-            </h2>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Стоимость доставки между городами и станциями РК складывается из базовой ставки подачи транспорта, тарифного расстояния и типа подвижного состава.
-            </p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
-              <div><strong>Еврофура (до 20 т / 86–90 м³):</strong> Оптимальна для маршрутов до 1 500 км (Хоргос – Алматы, Алматы – Астана). Включает погрузку и выгрузку на складах.</div>
-              <div><strong>ЖД-контейнер (20’ / 40’):</strong> Выгоден на плечах от 1 000 км и при транзите через Достык / Алтынколь без перегруза на границе.</div>
-              <div><strong>Крытый вагон (до 68 т):</strong> Максимальная экономия на тонну груза при оптовых партиях стройматериалов, оборудования и сырья.</div>
-              <div><strong>Пример:</strong> Маршрут Алматы → Астана (~1 240 км). Ставка отдельной фуры ориентировочно 410 000 – 550 000 ₸ с учётом НДС 12% для внутриказахстанских перевозок.</div>
-            </div>
-          </div>
-
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Частые вопросы по ЖД и автоперевозкам в РК
-            </h2>
-            <div class="space-y-4">
-              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
-                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
-                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
-              </div>
+        <!-- Компактный блок: Частые вопросы -->
+        <div class="mt-14 rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+          <h2 class="text-xl font-bold text-slate-900">
+            Частые вопросы
+          </h2>
+          <div class="grid gap-6 md:grid-cols-3">
+            <div v-for="(item, idx) in faqs" :key="idx">
+              <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+              <p class="mt-1.5 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
             </div>
           </div>
         </div>

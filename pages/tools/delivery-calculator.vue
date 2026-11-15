@@ -4,11 +4,11 @@ import { TOOLS_DATA } from '~/data/seoData'
 import { usePageSeo } from '~/composables/usePageSeo'
 
 const origins = [
-  { id: 'china', label: 'Китай (Гуанчжоу, Иу, Шанхай, Урумчи)', country: 'Китай', autoMin: 1.2, autoMax: 1.8, railMin: 0.6, railMax: 1.1, airMin: 3.8, airMax: 5.2, ftlMin: 3800, ftlMax: 4800, fclMin: 2400, fclMax: 3200 },
-  { id: 'turkey', label: 'Турция (Стамбул, Мерсин, Бурса)', country: 'Турция', autoMin: 1.8, autoMax: 2.5, railMin: 1.2, railMax: 1.7, airMin: 3.5, airMax: 4.8, ftlMin: 5200, ftlMax: 6400, fclMin: 3200, fclMax: 4100 },
-  { id: 'russia', label: 'Россия (Москва, Екатеринбург, Новосибирск)', country: 'Россия', autoMin: 0.3, autoMax: 0.6, railMin: 0.2, railMax: 0.4, airMin: 2.0, airMax: 3.2, ftlMin: 1600, ftlMax: 2600, fclMin: 1300, fclMax: 2100 },
-  { id: 'europe', label: 'Европа (Германия, Италия, Польша)', country: 'Европа', autoMin: 2.2, autoMax: 3.1, railMin: 1.5, railMax: 2.2, airMin: 4.8, airMax: 6.5, ftlMin: 5400, ftlMax: 6800, fclMin: 4100, fclMax: 5200 },
-  { id: 'uae', label: 'ОАЭ (Дубай, Шарджа)', country: 'ОАЭ', autoMin: 1.7, autoMax: 2.4, railMin: 1.2, railMax: 1.8, airMin: 3.4, airMax: 4.6, ftlMin: 4400, ftlMax: 5500, fclMin: 2500, fclMax: 3400 }
+  { id: 'china', label: 'Китай — Гуанчжоу, Иу, Шанхай, Урумчи', country: 'Китай', autoMin: 1.2, autoMax: 1.8, railMin: 0.6, railMax: 1.1, airMin: 3.8, airMax: 5.2, ftlMin: 3800, ftlMax: 4800, fclMin: 2400, fclMax: 3200 },
+  { id: 'turkey', label: 'Турция — Стамбул, Мерсин, Бурса', country: 'Турция', autoMin: 1.8, autoMax: 2.5, railMin: 1.2, railMax: 1.7, airMin: 3.5, airMax: 4.8, ftlMin: 5200, ftlMax: 6400, fclMin: 3200, fclMax: 4100 },
+  { id: 'russia', label: 'Россия — Москва, Екатеринбург, Новосибирск', country: 'Россия', autoMin: 0.3, autoMax: 0.6, railMin: 0.2, railMax: 0.4, airMin: 2.0, airMax: 3.2, ftlMin: 1600, ftlMax: 2600, fclMin: 1300, fclMax: 2100 },
+  { id: 'europe', label: 'Европа — Германия, Италия, Польша', country: 'Европа', autoMin: 2.2, autoMax: 3.1, airMin: 4.8, airMax: 6.5, railMin: 1.5, railMax: 2.2, ftlMin: 5400, ftlMax: 6800, fclMin: 4100, fclMax: 5200 },
+  { id: 'uae', label: 'ОАЭ — Дубай, Шарджа', country: 'ОАЭ', autoMin: 1.7, autoMax: 2.4, railMin: 1.2, railMax: 1.8, airMin: 3.4, airMax: 4.6, ftlMin: 4400, ftlMax: 5500, fclMin: 2500, fclMax: 3400 }
 ]
 
 const destinations = [
@@ -71,27 +71,23 @@ const whatsappShareUrl = computed(() => {
 
 const faqs = [
   {
-    q: 'Как рассчитывается оплачиваемый вес груза при доставке из Китая в Казахстан?',
-    a: 'В логистике сравнивают фактический вес (брутто) и объёмный вес. Для автодоставки и сборных грузов стандартная плотность составляет 250–333 кг в 1 м³, для авиаперевозок — 167 кг в 1 м³ (формула Д×Ш×В / 6000). К оплате принимается большее из двух значений.'
+    q: 'Как рассчитывается оплачиваемый вес груза?',
+    a: 'Мы сравниваем реальный вес груза и его объёмный вес. Для автодоставки 1 кубометр приравнивается к 250–333 кг, для авиа — к 167 кг. К расчёту берётся большее значение.'
   },
   {
-    q: 'Что выгоднее для партии до 10 м³: сборный груз (LCL) или отдельный контейнер?',
-    a: 'Для партий объёмом до 10–15 м³ и весом до 3–5 тонн выгоднее сборная доставка (LCL / сборная фура), так как вы оплачиваете только занятое место в транспорте. При объёме от 18–20 м³ стоит сравнить ставку с отдельным 20-футовым контейнером (FCL).'
+    q: 'Что выгоднее: сборный груз или отдельный контейнер?',
+    a: 'Для партий до 10–15 м³ и весом до 3–5 тонн выгоднее сборный груз — вы платите только за своё место в машине. При объёме от 18–20 м³ выгоднее заказать отдельный контейнер или фуру.'
   },
   {
-    q: 'Включена ли растаможка и НДС 12% в расчёт калькулятора?',
-    a: 'Калькулятор показывает ориентировочную стоимость самой перевозки (фрахта). Таможенная пошлина по ЕТТ ЕАЭС и импортный НДС 12% в Казахстане рассчитываются отдельно по коду ТН ВЭД и инвойсной стоимости — вы можете оценить их в нашем таможенном калькуляторе.'
-  },
-  {
-    q: 'Сколько времени занимает доставка груза из Китая в Алматы и Астану?',
-    a: 'Автодоставка из Китая (Гуанчжоу, Иу, Урумчи) через Хоргос занимает в среднем 12–18 дней, ЖД-контейнер — 18–25 дней, срочная авиадоставка — 3–6 дней. Сроки зависят от готовности товара и очереди на погранпереходе.'
+    q: 'Включена ли растаможка в расчёт калькулятора?',
+    a: 'Калькулятор показывает ориентировочную стоимость самой доставки. Таможенная пошлина и НДС 12% рассчитываются отдельно — их можно оценить в нашем таможенном калькуляторе.'
   }
 ]
 
 const relatedTools = [
   ...TOOLS_DATA.filter(x => x.slug !== 'delivery-calculator'),
   { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
-  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД' }
 ]
 
 usePageSeo({
@@ -228,7 +224,7 @@ usePageSeo({
                   Удобная доставка до склада
                 </span>
                 <h3 class="text-xl font-bold text-slate-900 mt-1">
-                  Автодоставка (фура или сборный груз)
+                  Автодоставка: фура или сборный груз
                 </h3>
                 <p class="mt-1 text-sm text-gray-500">
                   Забираем со склада отправителя и привозим в г. {{ currentDest.label }}.
@@ -312,34 +308,15 @@ usePageSeo({
           </div>
         </div>
 
-        <!-- Полезный SEO-блок: формулы, коэффициенты, пример и налоги в РК -->
-        <div class="mt-14 grid gap-6 lg:grid-cols-2">
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Формулы расчёта и коэффициенты плотности груза
-            </h2>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              При расчёте стоимости международной перевозки из Китая, Турции или Европы логисты используют <strong>оплачиваемый вес</strong> — большее значение между фактическим весом брутто и объёмным весом.
-            </p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
-              <div><strong>Авто и сборные грузы (LCL):</strong> Объёмный вес (кг) = Объём (м³) × 250 (или коэффициент 333 кг/м³ для лёгких грузов).</div>
-              <div><strong>Авиадоставка:</strong> Объёмный вес (кг) = Объём (м³) × 167 (формула Д × Ш × В в см / 6000).</div>
-              <div><strong>Пример расчёта:</strong> Партия из Китая в Алматы весом 400 кг и объёмом 2.4 м³. Объёмный вес для авто = 2.4 × 250 = 600 кг. Так как 600 кг &gt; 400 кг, расчёт идёт по 600 кг (~$720–$1 080).</div>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              При «белой» доставке в Казахстан дополнительно учитываются таможенная пошлина по ЕТТ ЕАЭС (обычно 0–10% в зависимости от кода ТН ВЭД) и <strong>НДС 12%</strong> от суммы таможенной стоимости и пошлины.
-            </p>
-          </div>
-
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Частые вопросы по расчёту доставки
-            </h2>
-            <div class="space-y-4">
-              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
-                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
-                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
-              </div>
+        <!-- Компактный блок: Частые вопросы -->
+        <div class="mt-14 rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+          <h2 class="text-xl font-bold text-slate-900">
+            Частые вопросы
+          </h2>
+          <div class="grid gap-6 md:grid-cols-3">
+            <div v-for="(item, idx) in faqs" :key="idx">
+              <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+              <p class="mt-1.5 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
             </div>
           </div>
         </div>
@@ -363,7 +340,7 @@ usePageSeo({
               Белая доставка из Китая под ключ →
             </NuxtLink>
             <NuxtLink to="/services/consolidated-cargo" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Сборные грузы (LCL / карго) →
+              Сборные грузы из Китая и Турции →
             </NuxtLink>
             <NuxtLink to="/services/customs" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
               Таможенное оформление в РК →

@@ -15,11 +15,11 @@ interface ContainerSpec {
 }
 
 const containers: ContainerSpec[] = [
-  { id: '20gp', name: '20’GP контейнер (33.2 м³)', shortName: '20’GP', lengthCm: 590, widthCm: 235, heightCm: 239, volumeCbm: 33.2, maxWeightKg: 21700 },
-  { id: '40dv', name: '40’DV контейнер (67.7 м³)', shortName: '40’DV', lengthCm: 1203, widthCm: 235, heightCm: 239, volumeCbm: 67.7, maxWeightKg: 26680 },
-  { id: '40hc', name: '40’HC High Cube (76.2 м³)', shortName: '40’HC', lengthCm: 1203, widthCm: 235, heightCm: 269, volumeCbm: 76.2, maxWeightKg: 26580 },
-  { id: 'euro86', name: 'Еврофура 86 м³ (тент)', shortName: 'Фура 86 м³', lengthCm: 1360, widthCm: 245, heightCm: 258, volumeCbm: 86, maxWeightKg: 20000 },
-  { id: 'euro120', name: 'Еврофура 120 м³ (сцепка)', shortName: 'Фура 120 м³', lengthCm: 1540, widthCm: 248, heightCm: 314, volumeCbm: 120, maxWeightKg: 20000 }
+  { id: '20gp', name: '20-футовый контейнер, 33.2 м³', shortName: '20-футовый контейнер', lengthCm: 590, widthCm: 235, heightCm: 239, volumeCbm: 33.2, maxWeightKg: 21700 },
+  { id: '40dv', name: '40-футовый контейнер, 67.7 м³', shortName: '40-футовый контейнер', lengthCm: 1203, widthCm: 235, heightCm: 239, volumeCbm: 67.7, maxWeightKg: 26680 },
+  { id: '40hc', name: '40-футовый высокий контейнер, 76.2 м³', shortName: '40-футовый высокий', lengthCm: 1203, widthCm: 235, heightCm: 269, volumeCbm: 76.2, maxWeightKg: 26580 },
+  { id: 'euro86', name: 'Еврофура 86 м³', shortName: 'Еврофура 86 м³', lengthCm: 1360, widthCm: 245, heightCm: 258, volumeCbm: 86, maxWeightKg: 20000 },
+  { id: 'euro120', name: 'Еврофура 120 м³', shortName: 'Еврофура 120 м³', lengthCm: 1540, widthCm: 248, heightCm: 314, volumeCbm: 120, maxWeightKg: 20000 }
 ]
 
 const selectedContainerId = ref('40hc')
@@ -93,21 +93,21 @@ const lclVsFclRecommendation = computed(() => {
     return {
       badge: 'Негабарит',
       title: 'Место превышает внутренние размеры транспорта',
-      desc: 'Уменьшите высоту/ширину упаковки или выберите контейнер 40’HC / фуру 120 м³.'
+      desc: 'Уменьшите высоту или ширину упаковки либо выберите 40-футовый высокий контейнер или фуру 120 м³.'
     }
   }
   if (vol <= 14 && weight <= 5000 && pct < 45) {
     return {
-      badge: 'Рекомендуем LCL (Сборный груз)',
-      title: `Заполнение ${currentContainer.value.shortName} всего ${pct}% — выгоднее сборная доставка`,
-      desc: 'При заполнении менее 45% (до 14 м³) заказывать целый контейнер нецелесообразно. В сборном грузе (LCL / сборная фура) вы оплачиваете только занятые кубометры.'
+      badge: 'Рекомендуем сборный груз',
+      title: `Заполнение всего ${pct}% — выгоднее сборный груз`,
+      desc: 'При заполнении менее 45% заказывать целый контейнер невыгодно. В сборном грузе вы оплачиваете только занятое место.'
     }
   }
   if (pct <= 100 && weight <= currentContainer.value.maxWeightKg) {
     return {
-      badge: 'Рекомендуем FCL (Целый контейнер / фура)',
-      title: `Оптимально под 1 × ${currentContainer.value.shortName} (заполнение ${pct}%)`,
-      desc: 'При загрузке от 45–50% целый контейнер (FCL) или отдельная еврофура обходятся дешевле на 1 м³, едут быстрее и не требуют перегрузов на промежуточных складах.'
+      badge: 'Рекомендуем отдельный контейнер',
+      title: `Оптимально под 1 ${currentContainer.value.shortName} — заполнение ${pct}%`,
+      desc: 'При загрузке от 45–50% отдельный контейнер или фура обходятся дешевле за кубометр, едут быстрее и без перегрузов.'
     }
   }
   return {
@@ -129,31 +129,27 @@ const whatsappLoadUrl = computed(() => {
 
 const faqs = [
   {
-    q: 'В чём разница между контейнерами 40’DV и 40’HC (High Cube)?',
-    a: 'Оба контейнера имеют длину 12.03 м и ширину 2.35 м, но 40’HC выше на 30 см (внутренняя высота 2.69 м против 2.39 м у 40’DV). За счёт этого полезный объём 40’HC составляет 76.2 м³ вместо 67.7 м³, что позволяет загрузить на 12–15% больше лёгких коробок.'
+    q: 'В чём разница между обычным и высоким 40-футовым контейнером?',
+    a: 'Оба контейнера имеют одинаковую длину и ширину, но высокий контейнер выше на 30 см. Это даёт 76.2 м³ объёма вместо 67.7 м³ и позволяет загрузить на 12–15% больше лёгких коробок.'
   },
   {
-    q: 'Как рассчитывается объёмный вес по коэффициентам K=5000, K=6000 и K=3000?',
-    a: 'Формула: (Длина × Ширина × Высота в см) / K. В авиаперевозках стандартом IATA является K=6000 (1 м³ = 166.7 кг), у некоторых экспресс-курьеров применяется K=5000 (1 м³ = 200 кг). Для авто и сборного карго часто используется K=3000 (1 м³ = 333.3 кг) или плотность 250 кг/м³.'
+    q: 'Зачем нужен расчёт объёмного веса для авиа и авто?',
+    a: 'Объёмный вес учитывает место, которое занимает лёгкий, но габаритный груз. Для расчёта перевозчики сравнивают реальный и объёмный вес и берут большее значение.'
   },
   {
-    q: 'Когда выгоднее выбирать LCL (сборный груз), а когда FCL (целый контейнер)?',
-    a: 'LCL выгоден при объёме до 12–15 м³, когда вы платите только за фактические кубометры. Если ваша партия занимает от 50% объёма 20- или 40-футового контейнера (от 16–18 м³), ставка за целый контейнер FCL почти всегда оказывается выгоднее и безопаснее.'
-  },
-  {
-    q: 'Какой максимальный вес груза можно загрузить в 20- и 40-футовый контейнер?',
-    a: 'Полезная грузоподъёмность стандартного 20’GP контейнера составляет около 21.7 тонны (при общем весе брутто 24 т), а 40’DV/HC — около 26.5 тонны. Однако на автодорогах Казахстана действуют ограничения по осевым нагрузкам, поэтому для автовывоза оптимально до 20–22 тонн.'
+    q: 'Когда выгоднее сборный груз, а когда отдельный контейнер?',
+    a: 'Сборный груз выгоден при объёме до 12–15 м³, когда вы платите только за занятое место. Если партия занимает от половины контейнера и больше, отдельный контейнер почти всегда дешевле и быстрее.'
   }
 ]
 
 const relatedTools = [
   ...TOOLS_DATA,
-  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД' }
 ]
 
 usePageSeo({
   title: 'Калькулятор загрузки контейнера 20/40 футов и фуры | INTER WAY',
-  description: 'Онлайн-калькулятор загрузки контейнера 20’GP, 40’DV, 40’HC и еврофуры 86–120 м³. Расчёт объёмного веса (K=5000, K=6000, K=3000) и сравнение LCL vs FCL.',
+  description: 'Онлайн-калькулятор загрузки 20- и 40-футового контейнера и еврофуры. Расчёт объёмного веса для авиа и авто и выбор между сборным грузом и отдельным контейнером.',
   path: '/tools/container-load-calculator',
   keywords: 'калькулятор загрузки контейнера 20 и 40 футов, расчет загрузки еврофуры онлайн, калькулятор объемного веса k 5000 6000 3000, lcl или fcl что выгоднее',
   breadcrumbs: [
@@ -186,7 +182,7 @@ usePageSeo({
             Калькулятор загрузки контейнера и объёмного веса
           </h1>
           <p class="mt-4 text-lg text-gray-300 max-w-2xl">
-            Узнайте, сколько коробок или паллет поместится в 20’GP, 40’DV, 40’HC или еврофуру 86–120 м³, рассчитайте объёмный вес и выберите выгодный формат (LCL или FCL).
+            Узнайте, сколько коробок или паллет поместится в 20-футовый, 40-футовый, 40-футовый высокий контейнер или еврофуру, рассчитайте объёмный вес и выберите сборный груз или отдельный контейнер.
           </p>
         </div>
       </div>
@@ -305,7 +301,7 @@ usePageSeo({
               <div class="mt-6 space-y-3">
                 <div>
                   <div class="flex justify-between text-xs mb-1">
-                    <span class="text-gray-300">Заполнение по объёму ({{ currentContainer.volumeCbm }} м³)</span>
+                    <span class="text-gray-300">Заполнение по объёму — {{ currentContainer.volumeCbm }} м³</span>
                     <span class="font-bold text-white">{{ rawVolumeFillPercent }}%</span>
                   </div>
                   <div class="h-2.5 w-full rounded-full bg-white/10 overflow-hidden">
@@ -314,7 +310,7 @@ usePageSeo({
                 </div>
                 <div>
                   <div class="flex justify-between text-xs mb-1">
-                    <span class="text-gray-300">Загрузка по весу (макс. {{ currentContainer.maxWeightKg.toLocaleString('ru-RU') }} кг)</span>
+                    <span class="text-gray-300">Загрузка по весу — макс. {{ currentContainer.maxWeightKg.toLocaleString('ru-RU') }} кг</span>
                     <span class="font-bold text-white">{{ Math.round((totalPartyWeightKg / currentContainer.maxWeightKg) * 100) }}%</span>
                   </div>
                   <div class="h-2.5 w-full rounded-full bg-white/10 overflow-hidden">
@@ -326,19 +322,19 @@ usePageSeo({
               <!-- Объёмный вес -->
               <div class="mt-6 rounded-2xl bg-white/5 p-5 border border-white/10">
                 <div class="text-xs font-bold uppercase tracking-wider text-gray-300 mb-3">
-                  Объёмный вес партии (сравните с фактическим {{ totalPartyWeightKg.toLocaleString('ru-RU') }} кг)
+                  Объёмный вес партии — реальный вес {{ totalPartyWeightKg.toLocaleString('ru-RU') }} кг
                 </div>
                 <div class="grid grid-cols-3 gap-3 text-center">
                   <div class="rounded-xl bg-white/5 p-3">
-                    <div class="text-[11px] text-gray-400">Авиа (K=6000)</div>
+                    <div class="text-[11px] text-gray-400">Для авиа</div>
                     <div class="mt-1 text-base font-bold text-white">{{ volumetricAir6000.toLocaleString('ru-RU') }} кг</div>
                   </div>
                   <div class="rounded-xl bg-white/5 p-3">
-                    <div class="text-[11px] text-gray-400">Экспресс (K=5000)</div>
+                    <div class="text-[11px] text-gray-400">Для экспресс-авиа</div>
                     <div class="mt-1 text-base font-bold text-white">{{ volumetricAir5000.toLocaleString('ru-RU') }} кг</div>
                   </div>
                   <div class="rounded-xl bg-white/5 p-3">
-                    <div class="text-[11px] text-gray-400">Авто (K=3000)</div>
+                    <div class="text-[11px] text-gray-400">Для авто</div>
                     <div class="mt-1 text-base font-bold text-blue-300">{{ volumetricAuto3000.toLocaleString('ru-RU') }} кг</div>
                   </div>
                 </div>
@@ -370,60 +366,16 @@ usePageSeo({
           </div>
         </div>
 
-        <!-- SEO-блок -->
-        <div class="mt-14 grid gap-6 lg:grid-cols-2">
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Габариты контейнеров, еврофур и формула объёмного веса
-            </h2>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              При планировании импорта из Китая, Турции или Европы важно заранее проверить не только общий кубаж, но и реальную укладку коробок/паллет с учётом внутренних размеров кузова и грузоподъёмности.
-            </p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
-              <div><strong>20’GP (5.90 × 2.35 × 2.39 м):</strong> полезный объём 33.2 м³, до 11 европаллет, до 21.7 т.</div>
-              <div><strong>40’HC (12.03 × 2.35 × 2.69 м):</strong> полезный объём 76.2 м³, до 25 европаллет, до 26.5 т.</div>
-              <div><strong>Еврофура 86–120 м³:</strong> стандартная 13.6 м вмещает 33 европаллеты (до 20 т), сцепка/мега — до 38 паллет и 120 м³.</div>
-              <div><strong>Объёмный вес:</strong> (Д × Ш × В в см) / K. Для авиа K=6000 (167 кг/м³) или K=5000 (200 кг/м³), для авто K=3000 (333 кг/м³).</div>
-            </div>
-          </div>
-
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Частые вопросы по загрузке и выбору LCL / FCL
-            </h2>
-            <div class="space-y-4">
-              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
-                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
-                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Перелинковка на маршруты и услуги -->
-        <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-8">
-          <h2 class="text-lg font-bold text-slate-900 mb-4">
-            Популярные маршруты и услуги доставки
+        <!-- Компактный блок: Частые вопросы -->
+        <div class="mt-14 rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+          <h2 class="text-xl font-bold text-slate-900">
+            Частые вопросы
           </h2>
-          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <NuxtLink to="/services/consolidated-cargo" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Сборные грузы (LCL) из Китая и Турции →
-            </NuxtLink>
-            <NuxtLink to="/services/white-delivery-china" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Белая доставка контейнерами из Китая →
-            </NuxtLink>
-            <NuxtLink to="/services/customs" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Таможенное оформление и НДС 12% →
-            </NuxtLink>
-            <NuxtLink to="/routes/china-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Доставка Китай → Алматы →
-            </NuxtLink>
-            <NuxtLink to="/routes/china-astana" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Доставка Китай → Астана →
-            </NuxtLink>
-            <NuxtLink to="/routes/turkey-almaty" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Доставка Турция → Алматы →
-            </NuxtLink>
+          <div class="grid gap-6 md:grid-cols-3">
+            <div v-for="(item, idx) in faqs" :key="idx">
+              <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+              <p class="mt-1.5 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
+            </div>
           </div>
         </div>
 

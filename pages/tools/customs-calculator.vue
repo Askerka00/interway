@@ -7,12 +7,12 @@ import { usePageSeo } from '~/composables/usePageSeo'
 const route = useRoute()
 
 const categories = [
-  { id: 'machinery', name: 'Оборудование, станки и техника (пошлина ~0–5%)', dutyRate: 3 },
-  { id: 'autoparts', name: 'Автозапчасти, шины и комплектующие (пошлина ~5%)', dutyRate: 5 },
-  { id: 'materials', name: 'Стройматериалы, плитка, сантехника (пошлина ~7.5%)', dutyRate: 7.5 },
-  { id: 'furniture', name: 'Мебель, освещение и товары для дома (пошлина ~8%)', dutyRate: 8 },
-  { id: 'clothes', name: 'Одежда, обувь и текстиль (пошлина ~10%)', dutyRate: 10 },
-  { id: 'electronics', name: 'Электроника, компьютеры и гаджеты (пошлина ~0–3%)', dutyRate: 0 }
+  { id: 'machinery', name: 'Оборудование, станки и техника — пошлина ~0–5%', dutyRate: 3 },
+  { id: 'autoparts', name: 'Автозапчасти, шины и комплектующие — пошлина ~5%', dutyRate: 5 },
+  { id: 'materials', name: 'Стройматериалы, плитка, сантехника — пошлина ~7.5%', dutyRate: 7.5 },
+  { id: 'furniture', name: 'Мебель, освещение и товары для дома — пошлина ~8%', dutyRate: 8 },
+  { id: 'clothes', name: 'Одежда, обувь и текстиль — пошлина ~10%', dutyRate: 10 },
+  { id: 'electronics', name: 'Электроника, компьютеры и гаджеты — пошлина ~0–3%', dutyRate: 0 }
 ]
 
 const queryDuty = route.query.duty !== undefined ? Number(route.query.duty) : NaN
@@ -35,7 +35,7 @@ const totalUsd = computed(() => customsFeeUsd + dutyUsd.value + vatUsd.value)
 const totalKzt = computed(() => Math.round(totalUsd.value * (Number(usdRate.value) || 495)))
 
 const whatsappCustomsUrl = computed(() => {
-  const label = queryName || currentCategory.value.name.split('(')[0]?.trim()
+  const label = queryName || currentCategory.value.name.split('—')[0]?.trim()
   const text = `Здравствуйте! Хочу узнать стоимость растаможки груза:
 • Категория / товар: ${label}
 • Ставка пошлины: ${effectiveDutyRate.value}%
@@ -46,27 +46,23 @@ const whatsappCustomsUrl = computed(() => {
 
 const faqs = [
   {
-    q: 'Как рассчитывается НДС 12% при растаможке товара в Казахстане?',
-    a: 'В Казахстане базовая ставка импортного НДС составляет 12%. Налог начисляется не только на цену товара, а на сумму: Таможенная стоимость (инвойс + доставка до границы ЕАЭС) + Таможенная пошлина + Таможенный сбор (или акциз для подакцизных товаров).'
+    q: 'Как рассчитывается НДС 12% при растаможке товара?',
+    a: 'НДС 12% начисляется на общую сумму: стоимость товара по счёту + стоимость доставки до границы + таможенная пошлина + таможенный сбор.'
   },
   {
-    q: 'Что входит в таможенную стоимость товара при импорте в РК?',
-    a: 'По правилам ЕАЭС в таможенную стоимость (базу для расчёта пошлины) включается стоимость товара по инвойсу (FOB/EXW) плюс расходы на доставку и страхование до границы ЕАЭС (условие CIF/CIP граница).'
+    q: 'От чего зависит ставка таможенной пошлины?',
+    a: 'Ставка зависит от точного кода товара. На промышленное оборудование пошлина часто составляет 0%, на автозапчасти — 5%, на одежду и обувь — 7.5–12%.'
   },
   {
-    q: 'От чего зависит ставка ввозной таможенной пошлины в Казахстане?',
-    a: 'Ставка пошлины определяется строго по 10-значному коду ТН ВЭД ЕАЭС согласно Единому таможенному тарифу (ЕТТ ЕАЭС). На многие виды промышленного оборудования ставка составляет 0%, на автозапчасти — 5%, на одежду и обувь — 7.5–12% (или комбинированная ставка в евро за кг/пару).'
-  },
-  {
-    q: 'Какие документы нужны для белой растаможки груза из Китая или Турции?',
-    a: 'Потребуются внешнеторговый контракт, инвойс (Invoice), упаковочный лист (Packing List), транспортная накладная (CMR / AWB / ЖД-накладная), экспортная декларация и разрешительные документы (декларация или сертификат соответствия ТР ТС при необходимости).'
+    q: 'Какие документы нужны для белой растаможки?',
+    a: 'Потребуются внешнеторговый контракт, счёт на оплату, упаковочный лист, транспортная накладная и сертификаты на товар при необходимости.'
   }
 ]
 
 const relatedTools = [
   ...TOOLS_DATA.filter(x => x.slug !== 'customs-calculator'),
   { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
-  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД' }
 ]
 
 usePageSeo({
@@ -132,7 +128,7 @@ usePageSeo({
                 </option>
               </select>
               <div v-if="queryName" class="mt-2 rounded-xl bg-blue-50 px-3.5 py-2 text-xs font-medium text-blue-800">
-                Выбран товар из справочника ТН ВЭД: <strong>{{ queryName }}</strong> (пошлина {{ effectiveDutyRate }}%)
+                Выбран товар из справочника: <strong>{{ queryName }}</strong>, пошлина {{ effectiveDutyRate }}%
               </div>
             </div>
 
@@ -209,11 +205,11 @@ usePageSeo({
                   <span class="font-bold text-white">~$50</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-white/10">
-                  <span class="text-gray-400">Ввозная пошлина (~{{ effectiveDutyRate }}%):</span>
+                  <span class="text-gray-400">Таможенная пошлина, ~{{ effectiveDutyRate }}%:</span>
                   <span class="font-bold text-white">~${{ dutyUsd.toLocaleString('ru-RU') }}</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-white/10">
-                  <span class="text-gray-400">НДС при импорте (12%):</span>
+                  <span class="text-gray-400">НДС 12%:</span>
                   <span class="font-bold text-white">~${{ vatUsd.toLocaleString('ru-RU') }}</span>
                 </div>
               </div>
@@ -222,7 +218,7 @@ usePageSeo({
                 <div>
                   <div class="text-xs text-gray-400">Ориентировочно всего платежей:</div>
                   <div class="text-2xl font-bold text-white mt-1">
-                    ~${{ totalUsd.toLocaleString('ru-RU') }} ({{ totalKzt.toLocaleString('ru-RU') }} ₸)
+                    ~${{ totalUsd.toLocaleString('ru-RU') }} · {{ totalKzt.toLocaleString('ru-RU') }} ₸
                   </div>
                 </div>
               </div>
@@ -251,35 +247,15 @@ usePageSeo({
           </div>
         </div>
 
-        <!-- SEO-блок: формулы таможенных платежей в РК -->
-        <div class="mt-14 grid gap-6 lg:grid-cols-2">
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Формула расчёта пошлины и НДС 12% в Казахстане
-            </h2>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Таможенная очистка товаров, ввозимых из Китая, Турции и других стран вне ЕАЭС, включает три обязательных платежа:
-            </p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
-              <div><strong>1. Таможенная стоимость (ТС):</strong> Стоимость товара по инвойсу + доставка до границы ЕАЭС.</div>
-              <div><strong>2. Ввозная пошлина (ЕАЭС):</strong> ТС × Ставка по коду ТН ВЭД (0–15%).</div>
-              <div><strong>3. Импортный НДС (12% в РК):</strong> (ТС + Пошлина + Таможенный сбор) × 12%.</div>
-              <div><strong>Пример:</strong> Товар $10 000 + доставка $1 500 = ТС $11 500. При пошлине 5% ($575) и сборе $50, база для НДС составит $12 125, а НДС 12% = $1 455. Итого платежей: ~$2 080.</div>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Не знаете точную ставку по вашему товару? Откройте наш <NuxtLink to="/tools/tnved-directory" class="text-blue-600 font-semibold hover:underline">Справочник кодов ТН ВЭД ЕАЭС</NuxtLink> и передайте ставку прямо в калькулятор.
-            </p>
-          </div>
-
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Частые вопросы по растаможке в РК
-            </h2>
-            <div class="space-y-4">
-              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
-                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
-                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
-              </div>
+        <!-- Компактный блок: Частые вопросы -->
+        <div class="mt-14 rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+          <h2 class="text-xl font-bold text-slate-900">
+            Частые вопросы
+          </h2>
+          <div class="grid gap-6 md:grid-cols-3">
+            <div v-for="(item, idx) in faqs" :key="idx">
+              <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+              <p class="mt-1.5 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
             </div>
           </div>
         </div>
@@ -294,7 +270,7 @@ usePageSeo({
               Таможенное оформление в Казахстане →
             </NuxtLink>
             <NuxtLink to="/services/white-delivery-china" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
-              Белая доставка из Китая с ГТД →
+              Белая доставка из Китая с декларацией →
             </NuxtLink>
             <NuxtLink to="/services/consolidated-cargo" class="rounded-2xl border border-slate-200 p-4 text-sm font-bold text-slate-800 hover:border-blue-500 hover:text-blue-600 transition-colors">
               Сборные грузы из Китая и Турции →

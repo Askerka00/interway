@@ -18,15 +18,15 @@ const totalWeightKg = computed(() => Math.round((Number(weightOneKg.value) || 0)
 
 const recommendedTransport = computed(() => {
   if (totalVolumeCbm.value <= 15 && totalWeightKg.value <= 5000) {
-    return 'Небольшая партия — выгоднее всего отправить в составе сборного груза (вы платите только за свое место в машине).'
+    return 'Небольшая партия — выгоднее всего отправить в составе сборного груза: вы платите только за своё место в машине.'
   }
   if (totalVolumeCbm.value <= 33 && totalWeightKg.value <= 22000) {
-    return 'Оптимально подойдет 20-футовый контейнер (вмещает до 33 м³) или половина еврофуры.'
+    return 'Оптимально подойдёт 20-футовый контейнер до 33 м³ или половина еврофуры.'
   }
   if (totalVolumeCbm.value <= 76 && totalWeightKg.value <= 26000) {
-    return 'Оптимально подойдет 40-футовый контейнер (до 76 м³) или отдельная еврофура 20 тонн (до 90 м³).'
+    return 'Оптимально подойдёт 40-футовый контейнер до 76 м³ или отдельная еврофура до 90 м³.'
   }
-  return 'Крупная партия — потребуется несколько фур/контейнеров или железнодорожный вагон.'
+  return 'Крупная партия — потребуется несколько фур, контейнеров или железнодорожный вагон.'
 })
 
 const whatsappCbmUrl = computed(() => {
@@ -40,42 +40,38 @@ const whatsappCbmUrl = computed(() => {
 
 const faqs = [
   {
-    q: 'Как рассчитать объём груза в кубометрах (м³) по размерам коробки?',
-    a: 'Переведите длину, ширину и высоту одной коробки в метры (разделите сантиметры на 100) и перемножьте их, затем умножьте на количество коробок: V = (Д × Ш × В / 1 000 000) × Кол-во.'
+    q: 'Как рассчитать объём груза в кубометрах?',
+    a: 'Умножьте длину, ширину и высоту одной коробки в метрах, а затем умножьте полученное число на количество коробок.'
   },
   {
-    q: 'Сколько европаллет (120×80 см) помещается в стандартную еврофуру и контейнер?',
-    a: 'В стандартную еврофуру (13.6 м, 86–90 м³) помещается до 33 европаллет (120×80 см) в один ярус. В 20-футовый контейнер (20’GP) — до 11 европаллет, в 40-футовый контейнер (40’DV/HC) — до 25 европаллет (в один ярус).'
+    q: 'Сколько стандартных паллет помещается в еврофуру и контейнер?',
+    a: 'В стандартную еврофуру помещается до 33 паллет 120×80 см в один ярус. В 20-футовый контейнер — до 11 паллет, в 40-футовый — до 25 паллет.'
   },
   {
-    q: 'Почему логисты считают объёмный вес, если мой груз лёгкий?',
-    a: 'Лёгкий, но габаритный товар занимает много места в фуре или самолёте. Чтобы компенсировать объём, применяется коэффициент плотности: для автоперевозок 1 м³ = 250–333 кг, для авиа 1 м³ = 167 кг. Оплата идёт по большему весу.'
-  },
-  {
-    q: 'Влияет ли объём груза на стоимость растаможки и НДС 12% в Казахстане?',
-    a: 'Косвенно да: в таможенную стоимость товара включается стоимость его доставки до границы ЕАЭС, которая напрямую зависит от объёма и веса груза. На эту общую сумму начисляются пошлина и НДС 12%.'
+    q: 'Почему логисты считают объёмный вес, если груз лёгкий?',
+    a: 'Лёгкий, но габаритный груз занимает много места в машине или самолёте. Для авто 1 м³ приравнивается к 250–333 кг, для авиа — к 167 кг. Оплата идёт по большему весу.'
   }
 ]
 
 const relatedTools = [
   ...TOOLS_DATA.filter(x => x.slug !== 'cbm-pallet-calculator'),
   { slug: 'container-load-calculator', shortTitle: 'Загрузка контейнера и объёмный вес' },
-  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД ЕАЭС' }
+  { slug: 'tnved-directory', shortTitle: 'Справочник ТН ВЭД' }
 ]
 
 usePageSeo({
   title: 'Калькулятор объёма груза м³ и паллет в фуру и контейнер | INTER WAY',
-  description: 'Простой онлайн-калькулятор объема груза в кубометрах (м3) по размерам коробок или паллет. Узнайте, какой транспорт подойдет под ваш груз.',
+  description: 'Простой онлайн-калькулятор объема груза в кубометрах по размерам коробок или паллет. Узнайте, какой транспорт подойдет под ваш груз.',
   path: '/tools/cbm-pallet-calculator',
   keywords: 'расчет объема груза м3 калькулятор, калькулятор объема и веса груза, расчет паллет в фуре, сколько паллет входит в фуру',
   breadcrumbs: [
     { name: 'Главная', path: '/' },
     { name: 'Калькуляторы', path: '/tools' },
-    { name: 'Расчет объема (м³) и паллет', path: '/tools/cbm-pallet-calculator' }
+    { name: 'Расчет объема и паллет', path: '/tools/cbm-pallet-calculator' }
   ],
   faqs,
   webApp: {
-    name: 'Калькулятор объема груза (м³) и паллет INTER WAY',
+    name: 'Калькулятор объема груза и паллет INTER WAY',
     category: 'UtilitiesApplication'
   }
 })
@@ -90,12 +86,12 @@ usePageSeo({
           <span>/</span>
           <NuxtLink to="/tools" class="hover:text-white transition">Калькуляторы</NuxtLink>
           <span>/</span>
-          <span class="text-blue-400 font-semibold">Расчет объема (м³) и паллет</span>
+          <span class="text-blue-400 font-semibold">Расчет объема и паллет</span>
         </nav>
 
         <div class="max-w-3xl">
           <h1 class="text-3xl font-bold leading-tight md:text-5xl">
-            Калькулятор объема груза (м³) и паллет
+            Калькулятор объема груза и паллет
           </h1>
           <p class="mt-4 text-lg text-gray-300 max-w-2xl">
             Введите размеры одной коробки или паллеты и их количество — мы сразу посчитаем общий объем в кубометрах и подскажем подходящий транспорт.
@@ -110,7 +106,7 @@ usePageSeo({
           <div class="lg:col-span-6 rounded-3xl border border-slate-200 bg-white p-8 space-y-6">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
               <h2 class="text-xl font-bold text-slate-900">
-                Размеры одного места (см)
+                Размеры одного места
               </h2>
               <div class="flex gap-2">
                 <button
@@ -118,14 +114,14 @@ usePageSeo({
                   @click="lengthCm = 120; widthCm = 80; heightCm = 150; weightOneKg = 350"
                   class="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200"
                 >
-                  Стандартная паллета (120×80)
+                  Стандартная паллета 120×80
                 </button>
                 <button
                   type="button"
                   @click="lengthCm = 60; widthCm = 40; heightCm = 40; weightOneKg = 15"
                   class="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200"
                 >
-                  Коробка (60×40×40)
+                  Коробка 60×40×40
                 </button>
               </div>
             </div>
@@ -201,35 +197,15 @@ usePageSeo({
           </div>
         </div>
 
-        <!-- SEO-блок: формулы и справочник паллет -->
-        <div class="mt-14 grid gap-6 lg:grid-cols-2">
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Формула расчёта кубатуры (CBM) и стандарты паллет
-            </h2>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Точный расчёт объёма груза в кубометрах (м³ / CBM) позволяет избежать переплат за воздух и правильно выбрать формат перевозки — сборный груз (LCL) или целый транспорт (FTL/FCL).
-            </p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-2">
-              <div><strong>Формула объёма:</strong> V (м³) = (Длина_см × Ширина_см × Высота_см) / 1 000 000 × Кол-во мест.</div>
-              <div><strong>Европаллета (EUR):</strong> 120 × 80 см — до 33 шт. в еврофуру (86–90 м³), 11 шт. в 20’GP, 25 шт. в 40’HC.</div>
-              <div><strong>Финская паллета (FIN):</strong> 120 × 100 см — до 26 шт. в еврофуру, 10 шт. в 20’GP, 21 шт. в 40’HC.</div>
-              <div><strong>Пример:</strong> 20 коробок 60×40×40 см = 20 × 0.096 м³ = 1.92 м³. При весе 300 кг это компактный сборный груз из Китая или Турции.</div>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Нужно уложить коробки в конкретный контейнер и сравнить LCL и FCL? Используйте наш <NuxtLink to="/tools/container-load-calculator" class="text-blue-600 font-semibold hover:underline">Калькулятор загрузки контейнера</NuxtLink>.
-            </p>
-          </div>
-
-          <div class="rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
-            <h2 class="text-xl font-bold text-slate-900">
-              Частые вопросы по объёму и паллетированию
-            </h2>
-            <div class="space-y-4">
-              <div v-for="(item, idx) in faqs" :key="idx" class="border-b border-slate-100 pb-3 last:border-b-0 last:pb-0">
-                <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
-                <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
-              </div>
+        <!-- Компактный блок: Частые вопросы -->
+        <div class="mt-14 rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+          <h2 class="text-xl font-bold text-slate-900">
+            Частые вопросы
+          </h2>
+          <div class="grid gap-6 md:grid-cols-3">
+            <div v-for="(item, idx) in faqs" :key="idx">
+              <h3 class="text-sm font-bold text-slate-900">{{ item.q }}</h3>
+              <p class="mt-1.5 text-xs text-gray-600 leading-relaxed">{{ item.a }}</p>
             </div>
           </div>
         </div>
