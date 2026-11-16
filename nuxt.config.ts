@@ -21,6 +21,8 @@ const prerenderRoutes = [
   '/routes/uae-almaty',
   '/routes/uzbekistan-kazakhstan',
   '/routes/almaty-astana',
+  '/routes/kazakhstan',
+  '/routes/china-1688-alibaba',
   '/tools',
   '/tools/delivery-calculator',
   '/tools/customs-calculator',
@@ -28,6 +30,7 @@ const prerenderRoutes = [
   '/tools/rail-distance-calculator',
   '/tools/container-load-calculator',
   '/tools/tnved-directory',
+  '/tools/car-customs-calculator',
   '/contacts',
   '/privacy',
   '/sitemap.xml'
