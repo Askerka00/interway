@@ -9,8 +9,14 @@ const props = defineProps<{
 
 const service = computed(() => SERVICES_DATA.find((s) => s.slug === props.slug) || SERVICES_DATA[0]!)
 const otherServices = computed(() => SERVICES_DATA.filter((s) => s.slug !== props.slug))
+const isCarCustomsService = computed(() => service.value.slug.startsWith('customs-auto-'))
 
 const TOOL_CARDS = {
+  carCustoms: {
+    to: '/tools/car-customs-calculator',
+    title: 'Калькулятор растаможки авто',
+    desc: 'Расчет пошлины, НДС 12%, утильсбора и первичной регистрации авто в 2026 году.'
+  },
   delivery: {
     to: '/tools/delivery-calculator',
     title: 'Калькулятор доставки',
@@ -40,6 +46,9 @@ const TOOL_CARDS = {
 
 const relevantTools = computed(() => {
   const s = service.value.slug
+  if (s.startsWith('customs-auto-')) {
+    return [TOOL_CARDS.carCustoms, TOOL_CARDS.delivery, TOOL_CARDS.customs]
+  }
   if (s === 'white-delivery-china' || s === 'customs') {
     return [TOOL_CARDS.customs, TOOL_CARDS.tnved, TOOL_CARDS.delivery]
   }
@@ -101,6 +110,13 @@ usePageSeo({
           </p>
 
           <div class="mt-10 flex flex-wrap gap-4">
+            <NuxtLink
+              v-if="isCarCustomsService"
+              to="/tools/car-customs-calculator"
+              class="rounded-full bg-emerald-500 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-emerald-400"
+            >
+              Рассчитать растаможку авто в калькуляторе
+            </NuxtLink>
             <NuxtLink
               to="#contacts"
               class="rounded-full bg-blue-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-blue-500"
