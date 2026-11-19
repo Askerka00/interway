@@ -59,8 +59,17 @@ const airRange = computed(() => {
   return `$${minVal.toLocaleString('ru-RU')} – $${maxVal.toLocaleString('ru-RU')}`
 })
 
+const selectedTransport = ref<'road' | 'rail' | 'air'>('road')
+
+const selectedTransportLabel = computed(() => {
+  if (selectedTransport.value === 'rail') return `ЖД доставка (${railRange.value})`
+  if (selectedTransport.value === 'air') return `Авиадоставка (${airRange.value})`
+  return `Автодоставка (${roadRange.value})`
+})
+
 const whatsappShareUrl = computed(() => {
   const text = `Здравствуйте! Хочу узнать точную стоимость доставки груза:
+• Вариант: ${selectedTransportLabel.value}
 • Откуда: ${currentOrigin.value.country}
 • Куда: ${currentDest.value.label}
 • Что везем: ${currentCargo.value.label}
@@ -216,12 +225,17 @@ usePageSeo({
             </div>
           </div>
 
-          <!-- Правая колонка: Понятные карточки диапазона цены -->
+          <!-- Правая колонка: Выбираемые карточки диапазона цены -->
           <div class="lg:col-span-7 space-y-5">
-            <div class="rounded-3xl border border-slate-200 bg-white p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <button
+              type="button"
+              @click="selectedTransport = 'road'"
+              class="w-full text-left cursor-pointer rounded-3xl border bg-white p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all"
+              :class="selectedTransport === 'road' ? 'border-blue-600 ring-2 ring-blue-600/20 shadow-sm' : 'border-slate-200 hover:border-slate-300'"
+            >
               <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-blue-600">
-                  Удобная доставка до склада
+                  {{ selectedTransport === 'road' ? 'Выбрано • Удобная доставка до склада' : 'Удобная доставка до склада' }}
                 </span>
                 <h3 class="text-xl font-bold text-slate-900 mt-1">
                   Автодоставка: фура или сборный груз
@@ -236,12 +250,17 @@ usePageSeo({
                   {{ roadRange }}
                 </div>
               </div>
-            </div>
+            </button>
 
-            <div class="rounded-3xl border border-slate-200 bg-white p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <button
+              type="button"
+              @click="selectedTransport = 'rail'"
+              class="w-full text-left cursor-pointer rounded-3xl border bg-white p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all"
+              :class="selectedTransport === 'rail' ? 'border-blue-600 ring-2 ring-blue-600/20 shadow-sm' : 'border-slate-200 hover:border-slate-300'"
+            >
               <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Выгодно для больших партий
+                <span class="text-xs font-bold uppercase tracking-wider" :class="selectedTransport === 'rail' ? 'text-blue-600' : 'text-slate-500'">
+                  {{ selectedTransport === 'rail' ? 'Выбрано • Выгодно для больших партий' : 'Выгодно для больших партий' }}
                 </span>
                 <h3 class="text-xl font-bold text-slate-900 mt-1">
                   Железнодорожная доставка
@@ -256,12 +275,17 @@ usePageSeo({
                   {{ railRange }}
                 </div>
               </div>
-            </div>
+            </button>
 
-            <div class="rounded-3xl border border-slate-200 bg-white p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <button
+              type="button"
+              @click="selectedTransport = 'air'"
+              class="w-full text-left cursor-pointer rounded-3xl border bg-white p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all"
+              :class="selectedTransport === 'air' ? 'border-blue-600 ring-2 ring-blue-600/20 shadow-sm' : 'border-slate-200 hover:border-slate-300'"
+            >
               <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Для срочных грузов
+                <span class="text-xs font-bold uppercase tracking-wider" :class="selectedTransport === 'air' ? 'text-blue-600' : 'text-slate-500'">
+                  {{ selectedTransport === 'air' ? 'Выбрано • Для срочных грузов' : 'Для срочных грузов' }}
                 </span>
                 <h3 class="text-xl font-bold text-slate-900 mt-1">
                   Авиадоставка
@@ -276,7 +300,7 @@ usePageSeo({
                   {{ airRange }}
                 </div>
               </div>
-            </div>
+            </button>
 
             <!-- Спокойный блок отправки заявки -->
             <div class="rounded-3xl bg-[#0B1120] p-8 text-white flex flex-col gap-5">
