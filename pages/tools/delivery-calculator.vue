@@ -33,6 +33,18 @@ const selectedCargoId = ref('general')
 const weightKg = ref(1000)
 const volumeCbm = ref(5)
 
+const weightPresets = [
+  { label: 'До 50 кг', weight: 30, volume: 0.2 },
+  { label: '100–500 кг', weight: 300, volume: 1.5 },
+  { label: '1–3 тонны', weight: 2000, volume: 10 },
+  { label: 'Фура / контейнер', weight: 18000, volume: 68 }
+]
+
+function applyWeightPreset(weight: number, volume: number) {
+  weightKg.value = weight
+  volumeCbm.value = volume
+}
+
 const currentOrigin = computed(() => origins.find((o) => o.id === selectedOriginId.value) || origins[0]!)
 const currentDest = computed(() => destinations.find((d) => d.id === selectedDestId.value) || destinations[0]!)
 const currentCargo = computed(() => cargoTypes.find((c) => c.id === selectedCargoId.value) || cargoTypes[0]!)
@@ -177,6 +189,24 @@ usePageSeo({
                   :class="selectedDestId === d.id ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-400'"
                 >
                   {{ d.label }}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+                Быстрый выбор веса и объема
+              </label>
+              <div class="grid grid-cols-2 gap-2">
+                <button
+                  v-for="preset in weightPresets"
+                  :key="preset.label"
+                  type="button"
+                  @click="applyWeightPreset(preset.weight, preset.volume)"
+                  class="cursor-pointer rounded-xl px-3 py-2 text-xs font-bold border transition-colors"
+                  :class="weightKg === preset.weight && volumeCbm === preset.volume ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-400'"
+                >
+                  {{ preset.label }}
                 </button>
               </div>
             </div>

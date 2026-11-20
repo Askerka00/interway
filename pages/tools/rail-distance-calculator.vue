@@ -8,11 +8,36 @@ const points = [
   { id: 'almaty', name: 'Алматы', lat: 43.341, lng: 76.949 },
   { id: 'astana', name: 'Астана', lat: 51.196, lng: 71.408 },
   { id: 'shymkent', name: 'Шымкент', lat: 42.300, lng: 69.596 },
+  { id: 'taraz', name: 'Тараз', lat: 42.900, lng: 71.367 },
   { id: 'karaganda', name: 'Караганда', lat: 49.804, lng: 73.109 },
   { id: 'aktau', name: 'Актау / Атырау', lat: 45.38, lng: 51.55 },
   { id: 'aktobe', name: 'Актобе', lat: 50.283, lng: 57.167 },
   { id: 'pavlodar', name: 'Павлодар / Усть-Каменогорск', lat: 52.287, lng: 76.967 }
 ]
+
+const resultRef = ref<HTMLElement | null>(null)
+
+const popularRailRoutes = [
+  { label: 'Алматы — Астана', fromId: 'almaty', toId: 'astana', distance: '1 340 км', days: '2–4 дня' },
+  { label: 'Достык — Алматы', fromId: 'horgos', toId: 'almaty', distance: '860 км', days: '2–3 дня' },
+  { label: 'Алтынколь / Хоргос — Алматы', fromId: 'horgos', toId: 'almaty', distance: '370 км', days: '1–2 дня' },
+  { label: 'Алматы — Шымкент', fromId: 'almaty', toId: 'shymkent', distance: '790 км', days: '2–3 дня' },
+  { label: 'Алматы — Тараз', fromId: 'almaty', toId: 'taraz', distance: '530 км', days: '1–2 дня' },
+  { label: 'Достык — Астана', fromId: 'horgos', toId: 'astana', distance: '1 560 км', days: '3–5 дней' },
+  { label: 'Алматы — Караганда', fromId: 'almaty', toId: 'karaganda', distance: '1 100 км', days: '2–4 дня' },
+  { label: 'Астана — Актобе', fromId: 'astana', toId: 'aktobe', distance: '1 480 км', days: '3–5 дней' },
+  { label: 'Алматы — Атырау', fromId: 'almaty', toId: 'aktau', distance: '2 680 км', days: '5–7 дней' },
+  { label: 'Алматы — Актау', fromId: 'almaty', toId: 'aktau', distance: '2 950 км', days: '6–8 дней' },
+  { label: 'Алматы — Павлодар', fromId: 'almaty', toId: 'pavlodar', distance: '1 450 км', days: '3–5 дней' }
+]
+
+function selectPopularRoute(from: string, to: string) {
+  fromId.value = from
+  toId.value = to
+  if (resultRef.value) {
+    resultRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 const fromId = ref('almaty')
 const toId = ref('astana')
@@ -194,7 +219,7 @@ usePageSeo({
             </div>
           </div>
 
-          <div class="lg:col-span-6 space-y-6">
+          <div ref="resultRef" class="lg:col-span-6 space-y-6 scroll-mt-24">
             <div class="rounded-3xl bg-[#0B1120] p-8 text-white">
               <h3 class="text-xl font-bold border-b border-white/10 pb-4">
                 {{ fromPoint.name }} → {{ toPoint.name }}
@@ -235,8 +260,54 @@ usePageSeo({
           </div>
         </div>
 
+        <!-- Таблица популярных ЖД-расстояний и сроков -->
+        <div class="mt-14 rounded-3xl border border-slate-200 bg-white p-6 md:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-4 border-b border-slate-100">
+            <h2 class="text-xl font-bold text-slate-900">
+              Таблица популярных ЖД-расстояний и сроков
+            </h2>
+            <p class="text-xs text-slate-500">
+              Нажмите на маршрут, чтобы сразу рассчитать стоимость выше
+            </p>
+          </div>
+
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <th class="py-3 pr-4">Маршрут</th>
+                  <th class="py-3 px-4">Расстояние по ЖД</th>
+                  <th class="py-3 px-4">Срок в пути</th>
+                  <th class="py-3 pl-4 text-right hidden sm:table-cell">Расчёт</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-sm">
+                <tr
+                  v-for="(row, idx) in popularRailRoutes"
+                  :key="idx"
+                  @click="selectPopularRoute(row.fromId, row.toId)"
+                  class="cursor-pointer transition-colors hover:bg-blue-50/70 group"
+                >
+                  <td class="py-3.5 pr-4 font-bold text-slate-900 group-hover:text-blue-600">
+                    {{ row.label }}
+                  </td>
+                  <td class="py-3.5 px-4 text-slate-700 whitespace-nowrap">
+                    {{ row.distance }}
+                  </td>
+                  <td class="py-3.5 px-4 text-slate-700 whitespace-nowrap">
+                    {{ row.days }}
+                  </td>
+                  <td class="py-3.5 pl-4 text-right text-xs font-bold text-blue-600 hidden sm:table-cell whitespace-nowrap">
+                    Выбрать →
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Компактный блок: Частые вопросы -->
-        <div class="mt-14 rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
+        <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-8 space-y-4">
           <h2 class="text-xl font-bold text-slate-900">
             Частые вопросы
           </h2>
