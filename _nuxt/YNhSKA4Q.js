@@ -1,0 +1,1 @@
+import{_ as o}from"./CkbZ6FIo.js";import{e,j as r,o as t}from"./BYmV-BSR.js";import"./B43vesCW.js";import"./D3rxe_F-.js";import"./BsFpKK8x.js";import"./B_8H42Pc.js";const f=e({__name:"warehouse",setup(a){return(s,m)=>(t(),r(o,{slug:"warehouse"}))}});export{f as default};

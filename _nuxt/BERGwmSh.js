@@ -1,0 +1,1 @@
+import{_ as o}from"./CkbZ6FIo.js";import{e as t,j as r,o as s}from"./BYmV-BSR.js";import"./B43vesCW.js";import"./D3rxe_F-.js";import"./BsFpKK8x.js";import"./B_8H42Pc.js";const f=t({__name:"customs",setup(e){return(m,p)=>(s(),r(o,{slug:"customs"}))}});export{f as default};
