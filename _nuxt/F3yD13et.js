@@ -1,0 +1,1 @@
+import{_ as o}from"./Dsb-t6_S.js";import{e as r,j as t,o as e}from"./vcIUc7yO.js";import"./Co97u0Dq.js";import"./D3rxe_F-.js";import"./BGHAatZX.js";import"./CtRdnPJ8.js";const u=r({__name:"road",setup(a){return(m,p)=>(e(),t(o,{slug:"road"}))}});export{u as default};
