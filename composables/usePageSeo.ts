@@ -47,9 +47,19 @@ export function usePageSeo(options: {
       name: COMPANY_INFO.name,
       alternateName: COMPANY_INFO.brand,
       url: COMPANY_INFO.url,
+      logo: `${COMPANY_INFO.url}/android-chrome-192x192.png`,
+      image: `${COMPANY_INFO.url}/android-chrome-192x192.png`,
+      description: 'Международная логистическая компания в Алматы и Казахстане: авто, ЖД, авиа и морские грузоперевозки из Китая, Турции, Европы, России и ОАЭ, таможенное оформление и растаможка авто с НДС 12%.',
       telephone: COMPANY_INFO.phone,
       email: COMPANY_INFO.email,
       priceRange: '$$',
+      knowsAbout: [
+        'Международные грузоперевозки в Казахстан',
+        'Доставка грузов из Китая в Алматы и Астану',
+        'Железнодорожные и контейнерные перевозки',
+        'Таможенное оформление и растаможка с НДС 12%',
+        'Сборные грузы и белая доставка из Китая'
+      ],
       address: {
         '@type': 'PostalAddress',
         streetAddress: 'ул. Кунаева, дом 32',
